@@ -1,16 +1,14 @@
 # notesappflutter
 
-A new Flutter project.
+Notes application in with with Riverpod and MVI + Clean architecture.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Plattform support
+Linux
+Android
+IOS
+Windows
+Mac
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This is another implementation for https://github.com/aeternam-13/NotesApp which is a Kotlin compose MVVM + Clean architecture, the target is to implement and compare both aprroaches in different languages.
