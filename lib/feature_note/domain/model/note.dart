@@ -1,0 +1,34 @@
+import 'dart:ui';
+import 'package:floor/floor.dart';
+
+@entity
+class Note {
+  final String title;
+  final String content;
+  final int timestamp;
+  final int color;
+  @primaryKey
+  final int id;
+
+  Note({
+    required this.title,
+    required this.content,
+    required this.timestamp,
+    required this.color,
+    required this.id,
+  });
+
+  static const List<Color> noteColors = [
+    Color(0xFFFF8C93),
+    Color(0xFF51C79B),
+    Color(0xFFDC6958),
+    Color(0xFF6AE78C),
+    Color(0xFFD896FF),
+    Color(0xFFE2D528),
+  ];
+}
+
+class InvalidNoteException implements Exception {
+  final String message;
+  InvalidNoteException(this.message);
+}
