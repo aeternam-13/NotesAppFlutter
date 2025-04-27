@@ -41,8 +41,12 @@ class NoteMapper extends ClassMapperBase<Note> {
   };
 
   static Note _instantiate(DecodingData data) {
-    return Note(data.dec(_f$title), data.dec(_f$content),
-        data.dec(_f$timestamp), data.dec(_f$color), data.dec(_f$id));
+    return Note(
+        title: data.dec(_f$title),
+        content: data.dec(_f$content),
+        timestamp: data.dec(_f$timestamp),
+        color: data.dec(_f$color),
+        id: data.dec(_f$id));
   }
 
   @override
@@ -118,11 +122,11 @@ class _NoteCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Note, $Out>
       }));
   @override
   Note $make(CopyWithData data) => Note(
-      data.get(#title, or: $value.title),
-      data.get(#content, or: $value.content),
-      data.get(#timestamp, or: $value.timestamp),
-      data.get(#color, or: $value.color),
-      data.get(#id, or: $value.id));
+      title: data.get(#title, or: $value.title),
+      content: data.get(#content, or: $value.content),
+      timestamp: data.get(#timestamp, or: $value.timestamp),
+      color: data.get(#color, or: $value.color),
+      id: data.get(#id, or: $value.id));
 
   @override
   NoteCopyWith<$R2, Note, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

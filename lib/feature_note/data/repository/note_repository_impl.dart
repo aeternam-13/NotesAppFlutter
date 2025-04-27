@@ -3,19 +3,19 @@ import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
-  final NoteDao dao;
+  final NoteDao _dao;
 
-  NoteRepositoryImpl(this.dao);
-
-  @override
-  Future<void> deleteNote(Note note) => dao.deleteNote(note);
+  NoteRepositoryImpl(this._dao);
 
   @override
-  Future<Note?> getNoteById(int id) => dao.getNoteById(id);
+  Future<void> deleteNote(Note note) => _dao.deleteNote(note);
 
   @override
-  Future<List<Note>> getNotes() => dao.getNotes();
+  Future<Note?> getNoteById(int id) => _dao.getNoteById(id);
 
   @override
-  Future<void> insertNote(Note note) => dao.insertNote(note);
+  Future<List<Note>> getNotes() => _dao.getNotes();
+
+  @override
+  Future<void> insertNote(Note note) => _dao.insertNote(note);
 }

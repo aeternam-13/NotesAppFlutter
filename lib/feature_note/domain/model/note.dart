@@ -12,7 +12,13 @@ class Note extends HiveObject with NoteMappable {
   final int color;
   final int id;
 
-  Note(this.title, this.content, this.timestamp, this.color, this.id);
+  Note({
+    required this.title,
+    required this.content,
+    required this.timestamp,
+    required this.color,
+    required this.id,
+  });
 
   static const List<Color> noteColors = [
     Color(0xFFFF8C93),

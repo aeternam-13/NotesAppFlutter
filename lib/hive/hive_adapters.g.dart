@@ -17,11 +17,11 @@ class NoteAdapter extends TypeAdapter<Note> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Note(
-      fields[0] as String,
-      fields[1] as String,
-      (fields[2] as num).toInt(),
-      (fields[3] as num).toInt(),
-      (fields[4] as num).toInt(),
+      title: fields[0] as String,
+      content: fields[1] as String,
+      timestamp: (fields[2] as num).toInt(),
+      color: (fields[3] as num).toInt(),
+      id: (fields[4] as num).toInt(),
     );
   }
 
