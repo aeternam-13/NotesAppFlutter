@@ -14,7 +14,7 @@ class NoteRepositoryImpl implements NoteRepository {
   Future<Note?> getNoteById(int id) => dao.getNoteById(id);
 
   @override
-  Stream<List<Note>> getNotes() => dao.getNotes();
+  Future<List<Note>> getNotes() => dao.getNotes();
 
   @override
   Future<void> insertNote(Note note) => dao.insertNote(note);

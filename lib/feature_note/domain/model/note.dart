@@ -1,13 +1,12 @@
 import 'dart:ui';
-import 'package:floor/floor.dart';
 
-@entity
-class Note {
+import 'package:hive_ce/hive.dart';
+
+class Note extends HiveObject {
   final String title;
   final String content;
   final int timestamp;
   final int color;
-  @primaryKey
   final int id;
 
   Note({
