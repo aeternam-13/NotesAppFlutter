@@ -1,21 +1,18 @@
 import 'dart:ui';
-
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:hive_ce/hive.dart';
 
-class Note extends HiveObject {
+part 'note.mapper.dart';
+
+@MappableClass()
+class Note extends HiveObject with NoteMappable {
   final String title;
   final String content;
   final int timestamp;
   final int color;
   final int id;
 
-  Note({
-    required this.title,
-    required this.content,
-    required this.timestamp,
-    required this.color,
-    required this.id,
-  });
+  Note(this.title, this.content, this.timestamp, this.color, this.id);
 
   static const List<Color> noteColors = [
     Color(0xFFFF8C93),
