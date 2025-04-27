@@ -8,7 +8,7 @@ class NoteRepositoryImpl implements NoteRepository {
   NoteRepositoryImpl(this._dao);
 
   @override
-  Future<void> deleteNote(Note note) => _dao.deleteNote(note);
+  Future<void> deleteNote(int id) => _dao.deleteNote(id);
 
   @override
   Future<Note?> getNoteById(int id) => _dao.getNoteById(id);

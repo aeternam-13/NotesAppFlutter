@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce/hive.dart';
 
 import 'package:notesappflutter/feature_note/presentation/notes/notes_screen.dart';
@@ -12,7 +13,7 @@ void main() async {
   Hive.init(dir.path);
   Hive.registerAdapters();
   await Hive.openBox('notesBox');
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

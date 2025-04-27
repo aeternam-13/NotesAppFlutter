@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesappflutter/di/providers.dart';
 import 'package:notesappflutter/feature_note/data/data_source/note_dao.dart';
 import 'package:notesappflutter/feature_note/data/repository/note_repository_impl.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_screen.dart';
 
-class NotesScreen extends StatefulWidget {
+class NotesScreen extends ConsumerWidget {
   const NotesScreen({super.key});
 
   @override
-  State<NotesScreen> createState() => _NotesScreenState();
-}
-
-class _NotesScreenState extends State<NotesScreen> {
-  final repo = NoteRepositoryImpl(NoteDao());
-  String _text = "";
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _text = (await repo.getNotes()).toString();
-      setState(() {});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<Note> notes = ref.watch(noteVMProvider);
+    final viewmodel = ref.read(noteVMProvider.notifier);
     return Scaffold(
       floatingActionButton: AddEditNoteButton(
         callback:
@@ -41,21 +29,18 @@ class _NotesScreenState extends State<NotesScreen> {
                 "Notes App Flutter",
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              Text(_text),
+              Text(notes.toString()),
               ElevatedButton(
                 onPressed: () async {
-                  await repo.insertNote(
+                  await viewmodel.insertNote(
                     Note(
                       title: "asddsa",
-                      content: "asddsa",
+                      content: "cacotas",
                       timestamp: 5000,
                       color: 0xFF6AE78C,
                       id: 8,
                     ),
                   );
-
-                  _text = (await repo.getNotes()).toString();
-                  setState(() {});
                 },
                 child: Text("Add note"),
               ),

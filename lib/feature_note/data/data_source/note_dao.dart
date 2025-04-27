@@ -21,7 +21,7 @@ class NoteDao {
     await _box.put(note.id, note);
   }
 
-  Future<void> deleteNote(Note note) async {
-    await _box.delete(note.id);
+  Future<void> deleteNote(int id) async {
+    await _box.delete(id);
   }
 }
