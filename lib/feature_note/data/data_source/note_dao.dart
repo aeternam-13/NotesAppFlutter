@@ -7,9 +7,10 @@ class NoteDao {
   Future<List<Note>> getNotes() async {
     final notes = <Note>[];
     for (final key in _box.keys) {
-      final map = await _box.get(key);
-      if (map != null) {
-        notes.add(NoteMapper.fromMap(Map<String, dynamic>.from(map)));
+      final element = await _box.get(key);
+      if (element != null) {
+        Note note = NoteMapper.fromMap(Map<String, dynamic>.from(element));
+        notes.add(note);
       }
     }
     return notes;
