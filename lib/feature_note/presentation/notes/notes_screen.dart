@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
-import 'package:notesappflutter/feature_note/data/data_source/note_dao.dart';
-import 'package:notesappflutter/feature_note/data/repository/note_repository_impl.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_screen.dart';
 
 class NotesScreen extends ConsumerWidget {
   const NotesScreen({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<Note> notes = ref.watch(noteVMProvider);
@@ -38,7 +35,7 @@ class NotesScreen extends ConsumerWidget {
                       content: "cacotas",
                       timestamp: 5000,
                       color: 0xFF6AE78C,
-                      id: 8,
+                      id: DateTime.timestamp().millisecond,
                     ),
                   );
                 },

@@ -1,5 +1,11 @@
-sealed class OrderType {}
+sealed class OrderType {
+  const OrderType();
+}
 
-class Ascending extends OrderType {}
+class Ascending extends OrderType {
+  const Ascending();
+}
 
-class Descending extends OrderType {}
+class Descending extends OrderType {
+  const Descending();
+}
