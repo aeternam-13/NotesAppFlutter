@@ -1,26 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
-import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
+import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
 
 class NoteViewModel extends StateNotifier<List<Note>> {
-  final NoteRepository _noteRepository;
+  final NoteUseCases _useCases;
 
-  NoteViewModel(this._noteRepository) : super([]) {
+  NoteViewModel(this._useCases) : super([]) {
     loadNotes();
   }
 
   Future<void> loadNotes() async {
-    final notes = await _noteRepository.getNotes();
+    final notes = await _useCases.getNotes();
     state = notes;
   }
 
   Future<void> insertNote(Note note) async {
-    await _noteRepository.insertNote(note);
+    await _useCases.addNote(note);
     loadNotes();
   }
 
   Future<void> deleteNote(Note note) async {
-    await _noteRepository.deleteNote(note.id);
+    await _useCases.deleteNote(note.id);
     loadNotes();
   }
 }
