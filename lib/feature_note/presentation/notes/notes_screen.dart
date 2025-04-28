@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
-import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_screen.dart';
+import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
 
 class NotesScreen extends ConsumerWidget {
   const NotesScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Note> notes = ref.watch(noteVMProvider);
+    NotesState notes = ref.watch(noteVMProvider);
     final viewmodel = ref.read(noteVMProvider.notifier);
     return Scaffold(
       floatingActionButton: AddEditNoteButton(
@@ -27,20 +27,7 @@ class NotesScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               Text(notes.toString()),
-              ElevatedButton(
-                onPressed: () async {
-                  await viewmodel.insertNote(
-                    Note(
-                      title: "asddsa",
-                      content: "cacotas",
-                      timestamp: 5000,
-                      color: 0xFF6AE78C,
-                      id: DateTime.timestamp().millisecond,
-                    ),
-                  );
-                },
-                child: Text("Add note"),
-              ),
+              ElevatedButton(onPressed: () async {}, child: Text("Add note")),
             ],
           ),
         ),
