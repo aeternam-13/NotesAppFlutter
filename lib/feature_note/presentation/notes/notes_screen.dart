@@ -5,7 +5,7 @@ import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit
 import 'package:notesappflutter/feature_note/presentation/notes/components/animated_visibility.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/note_item.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/order_section.dart';
-import 'package:notesappflutter/feature_note/presentation/notes/components/safe_scope.dart';
+import 'package:notesappflutter/feature_note/presentation/safe_scope.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_event.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
 
@@ -38,8 +38,7 @@ class NotesScreen extends ConsumerWidget {
             ),
             Text(state.notes.toString()),
             ElevatedButton(onPressed: () async {}, child: Text("Add note")),
-            SizedBox(
-              height: 500,
+            Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: state.notes.length,

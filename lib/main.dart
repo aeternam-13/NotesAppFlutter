@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce/hive.dart';
@@ -13,21 +15,29 @@ void main() async {
   Hive.init(dir.path);
   Hive.registerAdapters();
   await Hive.openBox('notesBox');
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(child: const NotesAppFlutter()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class NotesAppFlutter extends StatelessWidget {
+  const NotesAppFlutter({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const NotesScreen(),
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
