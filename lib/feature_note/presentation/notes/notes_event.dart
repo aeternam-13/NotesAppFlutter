@@ -3,18 +3,18 @@ import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dar
 
 sealed class NotesEvent {}
 
-class NotesEventOrder extends NotesEvent {
+class EventOrder extends NotesEvent {
   final NoteOrder noteOrder;
 
-  NotesEventOrder(this.noteOrder);
+  EventOrder(this.noteOrder);
 }
 
-class NotesEventDeleteNote extends NotesEvent {
+class EventDeleteNote extends NotesEvent {
   final Note note;
 
-  NotesEventDeleteNote(this.note);
+  EventDeleteNote(this.note);
 }
 
-class NotesEventRestoreNote extends NotesEvent {}
+class EventRestoreNote extends NotesEvent {}
 
-class NotesEventToggleOrderSection extends NotesEvent {}
+class EventToggleOrderSection extends NotesEvent {}

@@ -1,6 +1,6 @@
 # notesappflutter
 
-Notes application in with with Riverpod, Floor and MVI + Clean architecture.
+Notes application in with with Riverpod, Hive and MVI + Clean architecture.
 
 ## Getting Started
 

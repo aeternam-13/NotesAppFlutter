@@ -19,24 +19,24 @@ class NoteViewModel extends StateNotifier<NotesState> {
 
   void onEvent(NotesEvent event) {
     switch (event) {
-      case NotesEventOrder():
+      case EventOrder():
         if (state.noteOrder.runtimeType == event.noteOrder.runtimeType &&
             state.noteOrder.orderType == event.noteOrder.orderType) {
           return;
         }
         _getNotes(event.noteOrder);
 
-      case NotesEventDeleteNote(note: var note):
+      case EventDeleteNote(note: var note):
         _useCases.deleteNote(note.id);
         _recentlyDeletedNote = note;
 
-      case NotesEventRestoreNote():
+      case EventRestoreNote():
         if (_recentlyDeletedNote != null) {
           _useCases.addNote(_recentlyDeletedNote!);
           _recentlyDeletedNote = null;
         }
 
-      case NotesEventToggleOrderSection():
+      case EventToggleOrderSection():
         state = state.copyWith(
           isOrderSectionVisible: !state.isOrderSectionVisible,
         );
