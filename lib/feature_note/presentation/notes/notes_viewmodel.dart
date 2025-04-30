@@ -19,12 +19,12 @@ class NoteViewModel extends StateNotifier<NotesState> {
 
   void onEvent(NotesEvent event) {
     switch (event) {
-      case NotesEventOrder(noteOrder: var noteOrder):
-        if (state.noteOrder.runtimeType == noteOrder.runtimeType &&
-            state.noteOrder.orderType == noteOrder.orderType) {
+      case NotesEventOrder():
+        if (state.noteOrder.runtimeType == event.noteOrder.runtimeType &&
+            state.noteOrder.orderType == event.noteOrder.orderType) {
           return;
         }
-        _getNotes(noteOrder);
+        _getNotes(event.noteOrder);
 
       case NotesEventDeleteNote(note: var note):
         _useCases.deleteNote(note.id);
