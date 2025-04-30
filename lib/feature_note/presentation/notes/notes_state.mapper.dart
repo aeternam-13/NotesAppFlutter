@@ -22,26 +22,16 @@ class NotesStateMapper extends ClassMapperBase<NotesState> {
   final String id = 'NotesState';
 
   static List<Note> _$notes(NotesState v) => v.notes;
-  static const Field<NotesState, List<Note>> _f$notes = Field(
-    'notes',
-    _$notes,
-    opt: true,
-    def: const [],
-  );
+  static const Field<NotesState, List<Note>> _f$notes =
+      Field('notes', _$notes, opt: true, def: const []);
   static NoteOrder _$noteOrder(NotesState v) => v.noteOrder;
   static const Field<NotesState, NoteOrder> _f$noteOrder = Field(
-    'noteOrder',
-    _$noteOrder,
-    opt: true,
-    def: const NoteOrderDate(Descending()),
-  );
+      'noteOrder', _$noteOrder,
+      opt: true, def: const NoteOrderDate(Descending()));
   static bool _$isOrderSectionVisible(NotesState v) => v.isOrderSectionVisible;
   static const Field<NotesState, bool> _f$isOrderSectionVisible = Field(
-    'isOrderSectionVisible',
-    _$isOrderSectionVisible,
-    opt: true,
-    def: false,
-  );
+      'isOrderSectionVisible', _$isOrderSectionVisible,
+      opt: true, def: false);
 
   @override
   final MappableFields<NotesState> fields = const {
@@ -52,10 +42,9 @@ class NotesStateMapper extends ClassMapperBase<NotesState> {
 
   static NotesState _instantiate(DecodingData data) {
     return NotesState(
-      notes: data.dec(_f$notes),
-      noteOrder: data.dec(_f$noteOrder),
-      isOrderSectionVisible: data.dec(_f$isOrderSectionVisible),
-    );
+        notes: data.dec(_f$notes),
+        noteOrder: data.dec(_f$noteOrder),
+        isOrderSectionVisible: data.dec(_f$isOrderSectionVisible));
   }
 
   @override
@@ -72,36 +61,28 @@ class NotesStateMapper extends ClassMapperBase<NotesState> {
 
 mixin NotesStateMappable {
   String toJson() {
-    return NotesStateMapper.ensureInitialized().encodeJson<NotesState>(
-      this as NotesState,
-    );
+    return NotesStateMapper.ensureInitialized()
+        .encodeJson<NotesState>(this as NotesState);
   }
 
   Map<String, dynamic> toMap() {
-    return NotesStateMapper.ensureInitialized().encodeMap<NotesState>(
-      this as NotesState,
-    );
+    return NotesStateMapper.ensureInitialized()
+        .encodeMap<NotesState>(this as NotesState);
   }
 
   NotesStateCopyWith<NotesState, NotesState, NotesState> get copyWith =>
       _NotesStateCopyWithImpl<NotesState, NotesState>(
-        this as NotesState,
-        $identity,
-        $identity,
-      );
+          this as NotesState, $identity, $identity);
   @override
   String toString() {
-    return NotesStateMapper.ensureInitialized().stringifyValue(
-      this as NotesState,
-    );
+    return NotesStateMapper.ensureInitialized()
+        .stringifyValue(this as NotesState);
   }
 
   @override
   bool operator ==(Object other) {
-    return NotesStateMapper.ensureInitialized().equalsValue(
-      this as NotesState,
-      other,
-    );
+    return NotesStateMapper.ensureInitialized()
+        .equalsValue(this as NotesState, other);
   }
 
   @override
@@ -119,11 +100,8 @@ extension NotesStateValueCopy<$R, $Out>
 abstract class NotesStateCopyWith<$R, $In extends NotesState, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Note, NoteCopyWith<$R, Note, Note>> get notes;
-  $R call({
-    List<Note>? notes,
-    NoteOrder? noteOrder,
-    bool? isOrderSectionVisible,
-  });
+  $R call(
+      {List<Note>? notes, NoteOrder? noteOrder, bool? isOrderSectionVisible});
   NotesStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -138,35 +116,27 @@ class _NotesStateCopyWithImpl<$R, $Out>
   @override
   ListCopyWith<$R, Note, NoteCopyWith<$R, Note, Note>> get notes =>
       ListCopyWith(
-        $value.notes,
-        (v, t) => v.copyWith.$chain(t),
-        (v) => call(notes: v),
-      );
+          $value.notes, (v, t) => v.copyWith.$chain(t), (v) => call(notes: v));
   @override
-  $R call({
-    List<Note>? notes,
-    NoteOrder? noteOrder,
-    bool? isOrderSectionVisible,
-  }) => $apply(
-    FieldCopyWithData({
-      if (notes != null) #notes: notes,
-      if (noteOrder != null) #noteOrder: noteOrder,
-      if (isOrderSectionVisible != null)
-        #isOrderSectionVisible: isOrderSectionVisible,
-    }),
-  );
+  $R call(
+          {List<Note>? notes,
+          NoteOrder? noteOrder,
+          bool? isOrderSectionVisible}) =>
+      $apply(FieldCopyWithData({
+        if (notes != null) #notes: notes,
+        if (noteOrder != null) #noteOrder: noteOrder,
+        if (isOrderSectionVisible != null)
+          #isOrderSectionVisible: isOrderSectionVisible
+      }));
   @override
   NotesState $make(CopyWithData data) => NotesState(
-    notes: data.get(#notes, or: $value.notes),
-    noteOrder: data.get(#noteOrder, or: $value.noteOrder),
-    isOrderSectionVisible: data.get(
-      #isOrderSectionVisible,
-      or: $value.isOrderSectionVisible,
-    ),
-  );
+      notes: data.get(#notes, or: $value.notes),
+      noteOrder: data.get(#noteOrder, or: $value.noteOrder),
+      isOrderSectionVisible:
+          data.get(#isOrderSectionVisible, or: $value.isOrderSectionVisible));
 
   @override
   NotesStateCopyWith<$R2, NotesState, $Out2> $chain<$R2, $Out2>(
-    Then<$Out2, $R2> t,
-  ) => _NotesStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+          Then<$Out2, $R2> t) =>
+      _NotesStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

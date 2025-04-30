@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/transparent_hint_text_field.dart';
+import 'package:notesappflutter/feature_note/presentation/safe_scope.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
   const AddEditNoteScreen({super.key});
@@ -10,9 +12,20 @@ class AddEditNoteScreen extends StatefulWidget {
 class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: AddEditNoteAction(callback: () => {}),
-      body: SafeArea(child: Column(children: [Text("Add edit note screen")])),
+    //final viewmodel = ref.read(note.notifier);
+    return SafeScope(
+      floatingButton: AddEditNoteAction(callback: () => {}),
+      child: Column(
+        children: [
+          Text("Add edit note screen"),
+          TransparentHintTextField(
+            text: text,
+            hint: hint,
+            onValueChange: onValueChange,
+            onFocusChange: onFocusChange,
+          ),
+        ],
+      ),
     );
   }
 }
