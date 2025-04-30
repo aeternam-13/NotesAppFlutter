@@ -8,6 +8,8 @@ import 'package:notesappflutter/feature_note/domain/use_case/delete_note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/get_note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/get_notes.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_state.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_viewmodel.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_viewmodel.dart';
 
@@ -15,6 +17,12 @@ final noteVMProvider = StateNotifierProvider<NoteViewModel, NotesState>((ref) {
   final useCases = ref.read(useCasesProvider);
   return NoteViewModel(useCases);
 });
+
+final addEditNoteVMProvider =
+    StateNotifierProvider<AddEditNoteViewModel, AddEditNoteState>((ref) {
+      final useCases = ref.read(useCasesProvider);
+      return AddEditNoteViewModel(useCases);
+    });
 
 final useCasesProvider = Provider<NoteUseCases>((ref) {
   final repository = ref.read(noteRepProvider);

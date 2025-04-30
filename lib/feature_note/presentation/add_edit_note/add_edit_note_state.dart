@@ -12,8 +12,8 @@ class AddEditNoteState with AddEditNoteStateMappable {
   final int currentNoteId;
 
   AddEditNoteState({
-    this.noteTitle = const NoteTextFieldState(),
-    this.noteContent = const NoteTextFieldState(),
+    this.noteTitle = const NoteTextFieldState(hint: "Enter title..."),
+    this.noteContent = const NoteTextFieldState(hint: "Enter content..."),
     int? noteColor,
     this.currentNoteId = -1,
   }) : noteColor = noteColor ?? Note.randomColor();

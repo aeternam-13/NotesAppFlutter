@@ -24,11 +24,11 @@ class AddEditNoteStateMapper extends ClassMapperBase<AddEditNoteState> {
   static NoteTextFieldState _$noteTitle(AddEditNoteState v) => v.noteTitle;
   static const Field<AddEditNoteState, NoteTextFieldState> _f$noteTitle = Field(
       'noteTitle', _$noteTitle,
-      opt: true, def: const NoteTextFieldState());
+      opt: true, def: const NoteTextFieldState(hint: "Enter title..."));
   static NoteTextFieldState _$noteContent(AddEditNoteState v) => v.noteContent;
   static const Field<AddEditNoteState, NoteTextFieldState> _f$noteContent =
       Field('noteContent', _$noteContent,
-          opt: true, def: const NoteTextFieldState());
+          opt: true, def: const NoteTextFieldState(hint: "Enter content..."));
   static int _$noteColor(AddEditNoteState v) => v.noteColor;
   static const Field<AddEditNoteState, int> _f$noteColor =
       Field('noteColor', _$noteColor, opt: true);

@@ -1,30 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesappflutter/di/providers.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_event.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_viewmodel.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/transparent_hint_text_field.dart';
 import 'package:notesappflutter/feature_note/presentation/safe_scope.dart';
 
-class AddEditNoteScreen extends StatefulWidget {
+class AddEditNoteScreen extends ConsumerWidget {
   const AddEditNoteScreen({super.key});
 
   @override
-  State<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewmodel = ref.read(addEditNoteVMProvider.notifier);
+    final state = ref.watch(addEditNoteVMProvider);
 
-class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
-  @override
-  Widget build(BuildContext context) {
-    //final viewmodel = ref.read(note.notifier);
     return SafeScope(
       floatingButton: AddEditNoteAction(callback: () => {}),
-      child: Column(
-        children: [
-          Text("Add edit note screen"),
-          TransparentHintTextField(
-            text: text,
-            hint: hint,
-            onValueChange: onValueChange,
-            onFocusChange: onFocusChange,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text("Add edit note screen"),
+            TransparentHintTextField(
+              text: state.noteTitle.text,
+              hint: state.noteTitle.hint,
+              singleLine: true,
+              onValueChange:
+                  (val) => viewmodel.onEvent(EnteredTitle(value: val)),
+            ),
+            SizedBox(height: 8),
+            TransparentHintTextField(
+              text: state.noteContent.text,
+              hint: state.noteContent.hint,
+              onValueChange:
+                  (val) => viewmodel.onEvent(EnteredContent(value: val)),
+            ),
+          ],
+        ),
       ),
     );
   }

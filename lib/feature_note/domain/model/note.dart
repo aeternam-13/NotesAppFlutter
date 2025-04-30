@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:hive_ce/hive.dart';
@@ -11,6 +12,8 @@ class Note extends HiveObject with NoteMappable {
   final int timestamp;
   final int color;
   final int id;
+
+  static final _random = Random();
 
   Note({
     required this.title,
@@ -29,7 +32,8 @@ class Note extends HiveObject with NoteMappable {
     Color(0xFFE2D528),
   ];
 
-  static int randomColor() => (Note.noteColors..shuffle()).first.toARGB32();
+  static int randomColor() =>
+      noteColors[_random.nextInt(noteColors.length)].toARGB32();
 }
 
 class InvalidNoteException implements Exception {

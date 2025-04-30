@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 
 class TransparentHintTextField extends StatefulWidget {
-  final String text;
-  final String hint;
-  final bool isHintVisible;
-  final ValueChanged<String> onValueChange;
-  final ValueChanged<bool> onFocusChange;
-  final TextStyle textStyle;
-  final bool singleLine;
-
   const TransparentHintTextField({
     super.key,
     required this.text,
     required this.hint,
     required this.onValueChange,
-    required this.onFocusChange,
+
     this.isHintVisible = true,
     this.textStyle = const TextStyle(color: Colors.black),
     this.singleLine = false,
   });
+
+  final String text;
+  final String hint;
+  final bool isHintVisible;
+  final ValueChanged<String> onValueChange;
+  final TextStyle textStyle;
+  final bool singleLine;
 
   @override
   State<TransparentHintTextField> createState() =>
@@ -27,17 +26,11 @@ class TransparentHintTextField extends StatefulWidget {
 
 class _TransparentHintTextFieldState extends State<TransparentHintTextField> {
   late final TextEditingController _controller;
-  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.text);
-    _focusNode = FocusNode();
-
-    _focusNode.addListener(() {
-      widget.onFocusChange(_focusNode.hasFocus);
-    });
   }
 
   @override
@@ -51,7 +44,6 @@ class _TransparentHintTextFieldState extends State<TransparentHintTextField> {
   @override
   void dispose() {
     _controller.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
@@ -59,12 +51,11 @@ class _TransparentHintTextFieldState extends State<TransparentHintTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _controller,
-      focusNode: _focusNode,
       onChanged: widget.onValueChange,
       maxLines: widget.singleLine ? 1 : null,
       style: widget.textStyle,
       decoration: InputDecoration(
-        hintText: widget.isHintVisible ? widget.hint : null,
+        hintText: widget.hint,
         hintStyle: widget.textStyle,
         border: InputBorder.none,
         isCollapsed: true,
