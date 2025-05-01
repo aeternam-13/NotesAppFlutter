@@ -56,28 +56,33 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
                 setColor:
                     (color) => viewmodel.onEvent(ChangeColor(color: color)),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    TransparentHintTextField(
-                      text: state.noteTitle.text,
-                      hint: state.noteTitle.hint,
-                      singleLine: true,
-                      textStyle: InmutableStyle.titleLargeLargeBlack(context),
-                      onValueChange:
-                          (val) => viewmodel.onEvent(EnteredTitle(value: val)),
-                    ),
-                    SizedBox(height: 8),
-                    TransparentHintTextField(
-                      text: state.noteContent.text,
-                      hint: state.noteContent.hint,
-                      textStyle: InmutableStyle.bodyLargeBlack(context),
-                      onValueChange:
-                          (val) =>
-                              viewmodel.onEvent(EnteredContent(value: val)),
-                    ),
-                  ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      TransparentHintTextField(
+                        text: state.noteTitle.text,
+                        hint: state.noteTitle.hint,
+                        singleLine: true,
+                        textStyle: InmutableStyle.titleLargeLargeBlack(context),
+                        onValueChange:
+                            (val) =>
+                                viewmodel.onEvent(EnteredTitle(value: val)),
+                      ),
+                      SizedBox(height: 8),
+                      Flexible(
+                        child: TransparentHintTextField(
+                          text: state.noteContent.text,
+                          hint: state.noteContent.hint,
+                          textStyle: InmutableStyle.bodyLargeBlack(context),
+                          onValueChange:
+                              (val) =>
+                                  viewmodel.onEvent(EnteredContent(value: val)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

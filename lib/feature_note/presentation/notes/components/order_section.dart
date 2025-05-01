@@ -19,48 +19,51 @@ class OrderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedVisibility(
       isVisible: isVisible,
-      child: Column(
-        spacing: 16,
-        children: [
-          Row(
-            children: [
-              DefaultRadioButton(
-                text: "Date",
-                selected: noteOrder is NoteOrderDate,
-                onSelect:
-                    () => onOrderChange(NoteOrderDate(noteOrder.orderType)),
-              ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Column(
+          spacing: 16,
+          children: [
+            Row(
+              children: [
+                DefaultRadioButton(
+                  text: "Date",
+                  selected: noteOrder is NoteOrderDate,
+                  onSelect:
+                      () => onOrderChange(NoteOrderDate(noteOrder.orderType)),
+                ),
 
-              DefaultRadioButton(
-                text: "Title",
-                selected: noteOrder is NoteOrderTitle,
-                onSelect:
-                    () => onOrderChange(NoteOrderTitle(noteOrder.orderType)),
-              ),
+                DefaultRadioButton(
+                  text: "Title",
+                  selected: noteOrder is NoteOrderTitle,
+                  onSelect:
+                      () => onOrderChange(NoteOrderTitle(noteOrder.orderType)),
+                ),
 
-              DefaultRadioButton(
-                text: "Color",
-                selected: noteOrder is NoteOrderColor,
-                onSelect:
-                    () => onOrderChange(NoteOrderColor(noteOrder.orderType)),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              DefaultRadioButton(
-                text: 'Ascending',
-                selected: noteOrder.orderType is Ascending,
-                onSelect: () => onOrderChange(noteOrder.copy(Ascending())),
-              ),
-              DefaultRadioButton(
-                text: 'Descending',
-                selected: noteOrder.orderType is Descending,
-                onSelect: () => onOrderChange(noteOrder.copy(Descending())),
-              ),
-            ],
-          ),
-        ],
+                DefaultRadioButton(
+                  text: "Color",
+                  selected: noteOrder is NoteOrderColor,
+                  onSelect:
+                      () => onOrderChange(NoteOrderColor(noteOrder.orderType)),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                DefaultRadioButton(
+                  text: 'Ascending',
+                  selected: noteOrder.orderType is Ascending,
+                  onSelect: () => onOrderChange(noteOrder.copy(Ascending())),
+                ),
+                DefaultRadioButton(
+                  text: 'Descending',
+                  selected: noteOrder.orderType is Descending,
+                  onSelect: () => onOrderChange(noteOrder.copy(Descending())),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -30,7 +30,7 @@ class NotesScreen extends ConsumerWidget {
     return SafeScope(
       floatingButton: GoToAddEditNote(callback: () => _addEditNote(context)),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             NoteScreenHeader(),
@@ -40,11 +40,11 @@ class NotesScreen extends ConsumerWidget {
               onOrderChange:
                   (noteOrder) => viewmodel.onEvent(EventOrder(noteOrder)),
             ),
-
+            SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
                 child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
+                  alignment: WrapAlignment.start,
                   spacing: 16,
                   runSpacing: 16,
                   children: [

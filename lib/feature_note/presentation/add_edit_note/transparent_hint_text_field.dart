@@ -26,7 +26,7 @@ class TransparentHintTextField extends StatefulWidget {
 
 class _TransparentHintTextFieldState extends State<TransparentHintTextField> {
   late final TextEditingController _controller;
-
+  final _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -44,6 +44,7 @@ class _TransparentHintTextFieldState extends State<TransparentHintTextField> {
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -52,8 +53,10 @@ class _TransparentHintTextFieldState extends State<TransparentHintTextField> {
     return TextFormField(
       controller: _controller,
       onChanged: widget.onValueChange,
+      minLines: null,
       maxLines: widget.singleLine ? 1 : null,
       style: widget.textStyle,
+      scrollController: _scrollController,
       decoration: InputDecoration(
         hintText: widget.hint,
         hintStyle: widget.textStyle,
