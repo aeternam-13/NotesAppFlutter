@@ -1,28 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
-import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_event.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_viewmodel.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/components/add_edit_note_action.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/components/color_selector.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/transparent_hint_text_field.dart';
 
-class AddEditNoteScreen extends ConsumerStatefulWidget {
+class AddEditNoteScreen extends ConsumerWidget {
   const AddEditNoteScreen({super.key});
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _AddEditNoteScreenState();
-}
-
-class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
-  }
-
-  void _onUiEvent(UiEvent event) {
-    if (!mounted) return;
+  void _onUiEvent(BuildContext context, UiEvent event) {
+    if (!context.mounted) return;
     switch (event) {
       case SavedNote():
         Navigator.of(context).pop();
@@ -30,13 +19,15 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final viewmodel = ref.read(addEditNoteVMProvider.notifier);
     final state = ref.watch(addEditNoteVMProvider);
     final theme = Theme.of(context);
+
     ref.listen<AsyncValue<UiEvent>>(noteUiEventProvider, (prev, next) {
-      next.whenData(_onUiEvent);
+      next.whenData((event) => _onUiEvent(context, event));
     });
+
     return Scaffold(
       floatingActionButton: AddEditNoteAction(
         callback: () => viewmodel.onEvent(SaveNote()),
@@ -85,62 +76,5 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
         ),
       ),
     );
-  }
-}
-
-class ColorSelector extends ConsumerWidget {
-  const ColorSelector({super.key, required this.color, required this.setColor});
-
-  final Function(int) setColor;
-  final int color;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: List.generate(Note.noteColors.length, (index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: () => setColor(Note.noteColors[index].toARGB32()),
-                child: Container(
-                  width: 65,
-                  height: 65,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(40),
-                        spreadRadius: 1,
-                        blurRadius: 15,
-                        offset: Offset(0, 0), // vertical shadow
-                      ),
-                    ],
-                    border:
-                        color == Note.noteColors[index].toARGB32()
-                            ? Border.all(color: Colors.black, width: 4)
-                            : null,
-                    color: Note.noteColors[index],
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            );
-          }),
-        ),
-      ),
-    );
-  }
-}
-
-class AddEditNoteAction extends StatelessWidget {
-  const AddEditNoteAction({super.key, required this.callback});
-  final VoidCallback callback;
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(onPressed: callback, child: Icon(Icons.save));
   }
 }

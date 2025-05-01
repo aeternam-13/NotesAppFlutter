@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
@@ -42,6 +41,7 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
             ),
           );
           _uiEventController.add(SavedNote());
+          state = AddEditNoteState();
         } catch (e) {
           log("Error ${e.toString()}");
         }
