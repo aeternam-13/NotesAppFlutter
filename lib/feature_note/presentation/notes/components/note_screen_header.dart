@@ -16,7 +16,7 @@ class NoteScreenHeader extends ConsumerWidget {
         Text("NotesApp Flutter", style: theme.textTheme.headlineLarge),
         IconButton(
           onPressed: () => viewmodel.onEvent(EventToggleOrderSection()),
-          icon: Icon(Icons.settings, color: theme.primaryColor, size: 32),
+          icon: Icon(Icons.settings, size: 32),
         ),
       ],
     );

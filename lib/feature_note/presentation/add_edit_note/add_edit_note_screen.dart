@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
+
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_event.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_viewmodel.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/components/add_edit_note_action.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/components/color_selector.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/transparent_hint_text_field.dart';
+import 'package:notesappflutter/feature_note/presentation/common_components/inmutable_text.dart';
 
-class AddEditNoteScreen extends ConsumerWidget {
-  const AddEditNoteScreen({super.key});
+class AddEditNoteScreen extends ConsumerStatefulWidget {
+  const AddEditNoteScreen({super.key, this.noteId = -1});
 
-  void _onUiEvent(BuildContext context, UiEvent event) {
-    if (!context.mounted) return;
+  final int noteId;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AddEditNoteScreenState();
+}
+
+class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(addEditNoteVMProvider.notifier).loadNote(widget.noteId);
+  }
+
+  void _onUiEvent(UiEvent event) {
+    if (!mounted) return;
     switch (event) {
       case SavedNote():
         Navigator.of(context).pop();
@@ -19,15 +35,12 @@ class AddEditNoteScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final viewmodel = ref.read(addEditNoteVMProvider.notifier);
     final state = ref.watch(addEditNoteVMProvider);
-    final theme = Theme.of(context);
-
     ref.listen<AsyncValue<UiEvent>>(noteUiEventProvider, (prev, next) {
-      next.whenData((event) => _onUiEvent(context, event));
+      next.whenData(_onUiEvent);
     });
-
     return Scaffold(
       floatingActionButton: AddEditNoteAction(
         callback: () => viewmodel.onEvent(SaveNote()),
@@ -51,9 +64,7 @@ class AddEditNoteScreen extends ConsumerWidget {
                       text: state.noteTitle.text,
                       hint: state.noteTitle.hint,
                       singleLine: true,
-                      textStyle: theme.textTheme.titleLarge!.copyWith(
-                        color: Colors.black,
-                      ),
+                      textStyle: InmutableStyle.titleLargeLargeBlack(context),
                       onValueChange:
                           (val) => viewmodel.onEvent(EnteredTitle(value: val)),
                     ),
@@ -61,9 +72,7 @@ class AddEditNoteScreen extends ConsumerWidget {
                     TransparentHintTextField(
                       text: state.noteContent.text,
                       hint: state.noteContent.hint,
-                      textStyle: theme.textTheme.bodyLarge!.copyWith(
-                        color: Colors.black,
-                      ),
+                      textStyle: InmutableStyle.bodyLargeBlack(context),
                       onValueChange:
                           (val) =>
                               viewmodel.onEvent(EnteredContent(value: val)),

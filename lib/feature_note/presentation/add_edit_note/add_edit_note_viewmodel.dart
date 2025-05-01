@@ -37,7 +37,7 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
               content: state.noteContent.text,
               timestamp: timestamp,
               color: state.noteColor,
-              id: timestamp,
+              id: state.currentNoteId,
             ),
           );
           _uiEventController.add(SavedNote());
@@ -45,6 +45,20 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
         } catch (e) {
           log("Error ${e.toString()}");
         }
+    }
+  }
+
+  Future<void> loadNote(int noteId) async {
+    if (noteId != -1) {
+      final note = await _useCases.getNote(noteId);
+      if (note != null) {
+        state = state.copyWith(
+          noteTitle: state.noteTitle.copyWith(text: note.title),
+          noteContent: state.noteContent.copyWith(text: note.content),
+          noteColor: note.color,
+          currentNoteId: note.id,
+        );
+      }
     }
   }
 }

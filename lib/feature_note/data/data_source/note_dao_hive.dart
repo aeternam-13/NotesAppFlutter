@@ -28,9 +28,14 @@ class NoteDaoHive implements NoteDao {
   //TODO replace for uuid
   @override
   Future<void> insertNote(Note note) async {
-    final key = await _box.add(note);
-    Note noteCopy = note.copyWith(id: key);
-    await _box.put(key, noteCopy);
+    if (note.id == -1) {
+      final key = await _box.add(note);
+      Note noteCopy = note.copyWith(id: key);
+      await _box.put(key, noteCopy);
+      return;
+    }
+
+    await _box.put(note.id, note);
   }
 
   @override

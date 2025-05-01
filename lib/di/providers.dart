@@ -43,6 +43,4 @@ final noteRepProvider = Provider<NoteRepository>((ref) {
   return NoteRepositoryImpl(dao);
 });
 
-final noteDaoProvider = Provider<NoteDao>((ref) {
-  return NoteDaoHive();
-});
+final noteDaoProvider = Provider<NoteDao>((ref) => NoteDaoHive());

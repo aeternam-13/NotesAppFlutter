@@ -12,18 +12,23 @@ import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart
 
 class NotesScreen extends ConsumerWidget {
   const NotesScreen({super.key});
+
+  void _addEditNote(BuildContext context, {int noteId = -1}) {
+    if (!context.mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AddEditNoteScreen(noteId: noteId),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     NotesState state = ref.watch(noteVMProvider);
     final viewmodel = ref.read(noteVMProvider.notifier);
 
     return SafeScope(
-      floatingButton: GoToAddEditNote(
-        callback:
-            () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => AddEditNoteScreen()),
-            ),
-      ),
+      floatingButton: GoToAddEditNote(callback: () => _addEditNote(context)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -42,6 +47,11 @@ class NotesScreen extends ConsumerWidget {
                 itemBuilder:
                     (BuildContext context, int index) => NoteItem(
                       note: state.notes[index],
+                      onTap:
+                          () => _addEditNote(
+                            context,
+                            noteId: state.notes[index].id,
+                          ),
                       onDelete:
                           () => viewmodel.onEvent(
                             EventDeleteNote(state.notes[index]),
