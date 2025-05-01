@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
@@ -9,7 +12,11 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
 
   AddEditNoteViewModel(this._useCases) : super(AddEditNoteState());
 
-  void onEvent(AddEditNoteEvent event) {
+  final _uiEventController = StreamController<UiEvent>.broadcast();
+
+  Stream<UiEvent> get uiEventStream => _uiEventController.stream;
+
+  void onEvent(AddEditNoteEvent event) async {
     switch (event) {
       case EnteredTitle():
         state = state.copyWith(
@@ -22,7 +29,39 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
       case ChangeColor():
         state = state.copyWith(noteColor: event.color);
       case SaveNote():
-      // TODO: Handle this case.
+        int timestamp = _getTimestamp();
+        log(timestamp.toString());
+        try {
+          await _useCases.addNote(
+            Note(
+              title: state.noteTitle.text,
+              content: state.noteContent.text,
+              timestamp: timestamp,
+              color: state.noteColor,
+              id: timestamp,
+            ),
+          );
+          _uiEventController.add(SavedNote());
+        } catch (e) {
+          log("Error ${e.toString()}");
+        }
     }
   }
 }
+
+int _getTimestamp() {
+  DateTime dateTime = DateTime.now();
+  final formatted =
+      '${dateTime.year.toString().padLeft(4, '0')}'
+      '${dateTime.month.toString().padLeft(2, '0')}'
+      '${dateTime.day.toString().padLeft(2, '0')}'
+      '${dateTime.hour.toString().padLeft(2, '0')}'
+      '${dateTime.minute.toString().padLeft(2, '0')}'
+      '${dateTime.second.toString().padLeft(2, '0')}'
+      '${dateTime.millisecond.toString().padLeft(3, '0').substring(0, 2)}';
+  return int.parse(formatted);
+}
+
+sealed class UiEvent {}
+
+class SavedNote extends UiEvent {}

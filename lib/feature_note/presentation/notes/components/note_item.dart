@@ -7,13 +7,15 @@ class NoteItem extends StatelessWidget {
   final VoidCallback onDelete;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 15,
-      children: [
-        Text(note.title),
-        Text(note.content),
-        IconButton(icon: Icon(Icons.delete), onPressed: onDelete),
-      ],
+    return Card(
+      child: Column(
+        spacing: 15,
+        children: [
+          Text(note.title),
+          Text(note.content),
+          IconButton(icon: Icon(Icons.delete), onPressed: onDelete),
+        ],
+      ),
     );
   }
 }

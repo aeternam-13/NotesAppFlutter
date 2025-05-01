@@ -36,8 +36,7 @@ class NotesScreen extends ConsumerWidget {
                     (noteOrder) => viewmodel.onEvent(EventOrder(noteOrder)),
               ),
             ),
-            Text(state.notes.toString()),
-            ElevatedButton(onPressed: () async {}, child: Text("Add note")),
+
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,

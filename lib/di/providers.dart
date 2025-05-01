@@ -24,6 +24,10 @@ final addEditNoteVMProvider =
       return AddEditNoteViewModel(useCases);
     });
 
+final noteUiEventProvider = StreamProvider<UiEvent>(
+  (ref) => ref.watch(addEditNoteVMProvider.notifier).uiEventStream,
+);
+
 final useCasesProvider = Provider<NoteUseCases>((ref) {
   final repository = ref.read(noteRepProvider);
   return NoteUseCases(
