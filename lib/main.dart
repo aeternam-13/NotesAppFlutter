@@ -6,6 +6,7 @@ import 'package:hive_ce/hive.dart';
 
 import 'package:notesappflutter/feature_note/presentation/notes/notes_screen.dart';
 import 'package:notesappflutter/hive/hive_registrar.g.dart';
+import 'package:notesappflutter/theme.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
@@ -18,17 +19,25 @@ void main() async {
   runApp(ProviderScope(child: const NotesAppFlutter()));
 }
 
-class NotesAppFlutter extends StatelessWidget {
+class NotesAppFlutter extends StatefulWidget {
   const NotesAppFlutter({super.key});
 
+  @override
+  State<NotesAppFlutter> createState() => _NotesAppFlutterState();
+}
+
+class _NotesAppFlutterState extends State<NotesAppFlutter> {
+  final _appTheme = MaterialTheme(ThemeData.light().textTheme);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       scrollBehavior: MyCustomScrollBehavior(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: _appTheme.light(),
+      darkTheme: _appTheme.dark(),
+      highContrastDarkTheme: _appTheme.darkHighContrast(),
+      highContrastTheme: _appTheme.lightHighContrast(),
+      themeMode: ThemeMode.system,
       home: const NotesScreen(),
     );
   }

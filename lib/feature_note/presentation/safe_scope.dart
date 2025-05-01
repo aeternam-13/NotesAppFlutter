@@ -25,22 +25,13 @@ class _SafeScopeState extends State<SafeScope> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Scaffold(
-            drawerEnableOpenDragGesture: false,
-            resizeToAvoidBottomInset: widget.resize,
-            drawer: widget.drawer,
-            appBar: widget.appBar,
-            floatingActionButton: widget.floatingButton,
-            body: SafeArea(
-              child: SizedBox(
-                height: constraints.maxHeight,
-                child: widget.child,
-              ),
-            ),
-          );
-        },
+      child: Scaffold(
+        drawerEnableOpenDragGesture: false,
+        resizeToAvoidBottomInset: widget.resize,
+        drawer: widget.drawer,
+        appBar: widget.appBar,
+        floatingActionButton: widget.floatingButton,
+        body: SafeArea(child: widget.child),
       ),
     );
   }
