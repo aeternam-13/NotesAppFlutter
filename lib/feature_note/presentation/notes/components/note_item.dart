@@ -18,17 +18,43 @@ class NoteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Card(
+      child: Container(
+        constraints: BoxConstraints(
+          minWidth: 200,
+          maxWidth: 450,
+          minHeight: 100,
+        ),
         color: Color(note.color),
+        padding: EdgeInsets.all(6),
         child: Column(
-          spacing: 15,
+          spacing: 10,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               note.title,
               style: InmutableStyle.titleLargeLargeBlack(context),
             ),
-            Text(note.content, style: InmutableStyle.bodyLargeBlack(context)),
-            IconButton(icon: Icon(Icons.delete), onPressed: onDelete),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text(
+                    note.content,
+                    softWrap: true,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: InmutableStyle.bodyLargeBlack(context),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: InkWell(onTap: onDelete, child: Icon(Icons.delete)),
+                ),
+              ],
+            ),
           ],
         ),
       ),

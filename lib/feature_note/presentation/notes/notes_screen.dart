@@ -40,23 +40,24 @@ class NotesScreen extends ConsumerWidget {
               onOrderChange:
                   (noteOrder) => viewmodel.onEvent(EventOrder(noteOrder)),
             ),
+
             Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.notes.length,
-                itemBuilder:
-                    (BuildContext context, int index) => NoteItem(
-                      note: state.notes[index],
-                      onTap:
-                          () => _addEditNote(
-                            context,
-                            noteId: state.notes[index].id,
-                          ),
-                      onDelete:
-                          () => viewmodel.onEvent(
-                            EventDeleteNote(state.notes[index]),
-                          ),
+              child: SingleChildScrollView(
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: 16,
+                  runSpacing: 16,
+                  children: [
+                    ...state.notes.map(
+                      (note) => NoteItem(
+                        note: note,
+                        onTap: () => _addEditNote(context, noteId: note.id),
+                        onDelete:
+                            () => viewmodel.onEvent(EventDeleteNote(note)),
+                      ),
                     ),
+                  ],
+                ),
               ),
             ),
           ],
