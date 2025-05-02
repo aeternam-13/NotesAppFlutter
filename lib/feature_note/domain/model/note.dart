@@ -31,6 +31,10 @@ class Note extends HiveObject with NoteMappable {
     Color(0xFFD896FF),
     Color(0xFFE2D528),
     Color(0xFF28C6E2),
+    Color(0xFFFD6FFF),
+    Color(0xFFC0C0C0),
+    Color(0xFFFFC754),
+    Color(0xFF4BFCFF),
   ];
 
   static int randomColor() =>
