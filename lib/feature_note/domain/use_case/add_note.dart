@@ -8,7 +8,7 @@ class AddNote {
 
   Future<void> call(Note note) async {
     if (note.title.trim().isEmpty) {
-      throw InvalidNoteException('Title is empty');
+      throw InvalidNoteException("Title can't be empty");
     }
     if (note.content.trim().isEmpty) {
       throw InvalidNoteException('Content is empty');

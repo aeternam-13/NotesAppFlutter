@@ -31,6 +31,15 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
     switch (event) {
       case SavedNote():
         Navigator.of(context).pop();
+      case ShowSnackBar():
+        final snackBar = SnackBar(
+          content: Text(
+            event.message,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 

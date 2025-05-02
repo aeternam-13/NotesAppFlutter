@@ -42,6 +42,8 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
           );
           _uiEventController.add(SavedNote());
           state = AddEditNoteState();
+        } on InvalidNoteException catch (e) {
+          _uiEventController.add(ShowSnackBar(message: e.message));
         } catch (e) {
           log("Error ${e.toString()}");
         }
@@ -79,3 +81,9 @@ int _getTimestamp() {
 sealed class UiEvent {}
 
 class SavedNote extends UiEvent {}
+
+class ShowSnackBar extends UiEvent {
+  final String message;
+
+  ShowSnackBar({required this.message});
+}
