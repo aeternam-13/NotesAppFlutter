@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
+import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/go_to_add_edit_note.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/note_item.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/note_screen_header.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/order_section.dart';
+import 'package:notesappflutter/feature_note/presentation/notes/notes_viewmodel.dart';
 import 'package:notesappflutter/feature_note/presentation/safe_scope.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_event.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
@@ -20,6 +22,32 @@ class NotesScreen extends ConsumerWidget {
         builder: (context) => AddEditNoteScreen(noteId: noteId),
       ),
     );
+  }
+
+  void _deleteNote(BuildContext context, Note note, NoteViewModel viewmodel) {
+    viewmodel.onEvent(EventDeleteNote(note));
+
+    final theme = Theme.of(context);
+    final snackBar = SnackBar(
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: "Undo",
+        textColor: theme.colorScheme.onSurface,
+        backgroundColor: theme.colorScheme.surface,
+        onPressed: () => viewmodel.onEvent(EventRestoreNote()),
+      ),
+      content: Text(
+        "Note deleted",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: theme.colorScheme.surface,
+          fontSize: 17,
+        ),
+      ),
+      backgroundColor: theme.colorScheme.primary,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -40,6 +68,7 @@ class NotesScreen extends ConsumerWidget {
               onOrderChange:
                   (noteOrder) => viewmodel.onEvent(EventOrder(noteOrder)),
             ),
+
             SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(
@@ -52,8 +81,7 @@ class NotesScreen extends ConsumerWidget {
                       (note) => NoteItem(
                         note: note,
                         onTap: () => _addEditNote(context, noteId: note.id),
-                        onDelete:
-                            () => viewmodel.onEvent(EventDeleteNote(note)),
+                        onDelete: () => _deleteNote(context, note, viewmodel),
                       ),
                     ),
                   ],

@@ -32,6 +32,7 @@ class _NotesAppFlutterState extends State<NotesAppFlutter> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
       theme: _appTheme.light(),
       darkTheme: _appTheme.dark(),

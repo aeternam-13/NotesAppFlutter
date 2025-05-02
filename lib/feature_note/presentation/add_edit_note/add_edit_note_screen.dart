@@ -47,7 +47,7 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
   Widget build(BuildContext context) {
     final viewmodel = ref.read(addEditNoteVMProvider.notifier);
     final state = ref.watch(addEditNoteVMProvider);
-    ref.listen<AsyncValue<UiEvent>>(noteUiEventProvider, (prev, next) {
+    ref.listen<AsyncValue<UiEvent>>(addEditNoteUiEventProvider, (prev, next) {
       next.whenData(_onUiEvent);
     });
     return Scaffold(
