@@ -11,9 +11,9 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
 
   AddEditNoteViewModel(this._useCases) : super(AddEditNoteState());
 
-  final _uiEventController = StreamController<UiEvent>.broadcast();
+  final _uiEventController = StreamController<AddEditNoteUiEvent>.broadcast();
 
-  Stream<UiEvent> get uiEventStream => _uiEventController.stream;
+  Stream<AddEditNoteUiEvent> get uiEventStream => _uiEventController.stream;
 
   void onEvent(AddEditNoteEvent event) async {
     switch (event) {
@@ -42,6 +42,7 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
           );
           _uiEventController.add(SavedNote());
           state = AddEditNoteState();
+          log(state.noteColor.toString());
         } on InvalidNoteException catch (e) {
           _uiEventController.add(ShowSnackBar(message: e.message));
         } catch (e) {
@@ -78,11 +79,11 @@ int _getTimestamp() {
   return int.parse(formatted);
 }
 
-sealed class UiEvent {}
+sealed class AddEditNoteUiEvent {}
 
-class SavedNote extends UiEvent {}
+class SavedNote extends AddEditNoteUiEvent {}
 
-class ShowSnackBar extends UiEvent {
+class ShowSnackBar extends AddEditNoteUiEvent {
   final String message;
 
   ShowSnackBar({required this.message});

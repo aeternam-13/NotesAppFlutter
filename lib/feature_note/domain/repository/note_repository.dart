@@ -1,7 +1,9 @@
+import 'package:multiple_result/multiple_result.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
+import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 
 abstract class NoteRepository {
-  Stream<List<Note>> getNotes();
+  Stream<Result<List<Note>, NoteException>> getNotes();
 
   Future<Note?> getNoteById(int id);
 

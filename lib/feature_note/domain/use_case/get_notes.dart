@@ -1,4 +1,6 @@
+import 'package:multiple_result/multiple_result.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
+import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/order_type.dart';
@@ -8,16 +10,21 @@ class GetNotes {
 
   GetNotes(this.repository);
 
-  Stream<List<Note>> call({
+  Stream<Result<List<Note>, NoteException>> call({
     NoteOrder noteOrder = const NoteOrderDate(Descending()),
   }) {
-    return repository.getNotes().map((notes) {
-      switch (noteOrder.orderType) {
-        case Ascending():
-          return _sortNotesAscending(notes, noteOrder);
-        case Descending():
-          return _sortNotesDescending(notes, noteOrder);
-      }
+    return repository.getNotes().map((result) {
+      return result.map(
+        successMapper: (notes) {
+          switch (noteOrder.orderType) {
+            case Ascending():
+              return _sortNotesAscending(notes, noteOrder);
+            case Descending():
+              return _sortNotesDescending(notes, noteOrder);
+          }
+        },
+        errorMapper: (noteException) => noteException,
+      );
     });
   }
 

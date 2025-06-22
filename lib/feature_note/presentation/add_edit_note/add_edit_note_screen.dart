@@ -26,7 +26,7 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
     ref.read(addEditNoteVMProvider.notifier).loadNote(widget.noteId);
   }
 
-  void _onUiEvent(UiEvent event) {
+  void _onUiEvent(AddEditNoteUiEvent event) {
     if (!mounted) return;
     switch (event) {
       case SavedNote():
@@ -47,7 +47,10 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
   Widget build(BuildContext context) {
     final viewmodel = ref.read(addEditNoteVMProvider.notifier);
     final state = ref.watch(addEditNoteVMProvider);
-    ref.listen<AsyncValue<UiEvent>>(addEditNoteUiEventProvider, (prev, next) {
+    ref.listen<AsyncValue<AddEditNoteUiEvent>>(addEditNoteUiEventProvider, (
+      prev,
+      next,
+    ) {
       next.whenData(_onUiEvent);
     });
     return Scaffold(

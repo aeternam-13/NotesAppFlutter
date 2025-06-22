@@ -24,7 +24,7 @@ final addEditNoteVMProvider =
       return AddEditNoteViewModel(useCases);
     });
 
-final addEditNoteUiEventProvider = StreamProvider<UiEvent>(
+final addEditNoteUiEventProvider = StreamProvider<AddEditNoteUiEvent>(
   (ref) => ref.watch(addEditNoteVMProvider.notifier).uiEventStream,
 );
 

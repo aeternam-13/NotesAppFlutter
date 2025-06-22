@@ -1,19 +1,18 @@
-import 'package:dart_mappable/dart_mappable.dart';
-import 'package:notesappflutter/feature_note/domain/model/note.dart';
-import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dart';
-import 'package:notesappflutter/feature_note/domain/use_case/util/order_type.dart';
+import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
+import 'package:notesappflutter/feature_note/presentation/notes/notes_state_holder.dart';
 
-part 'notes_state.mapper.dart';
+sealed class NotesState {}
 
-@MappableClass()
-class NotesState with NotesStateMappable {
-  final List<Note> notes;
-  final NoteOrder noteOrder;
-  final bool isOrderSectionVisible;
+class NotesStateSuccess extends NotesState {
+  final NotesStateHolder state;
 
-  const NotesState({
-    this.notes = const [],
-    this.noteOrder = const NoteOrderDate(Descending()),
-    this.isOrderSectionVisible = false,
-  });
+  NotesStateSuccess({required this.state});
 }
+
+class NotesStateError extends NotesState {
+  final NoteException exception;
+
+  NotesStateError({required this.exception});
+}
+
+class NotesStateLoading extends NotesState {}

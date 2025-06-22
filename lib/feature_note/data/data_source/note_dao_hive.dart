@@ -1,6 +1,8 @@
 import 'package:hive_ce/hive.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:notesappflutter/feature_note/data/data_source/note_dao.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
+import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 
 class NoteDaoHive implements NoteDao {
   final Box _box = Hive.box('notesBox');
@@ -15,9 +17,9 @@ class NoteDaoHive implements NoteDao {
   }
 
   @override
-  Stream<List<Note>> getNotes() async* {
-    yield _readAllNotes();
-    yield* _box.watch().map((_) => _readAllNotes());
+  Stream<Result<List<Note>, NoteException>> getNotes() async* {
+    yield Success(_readAllNotes());
+    yield* _box.watch().map((_) => Success(_readAllNotes()));
   }
 
   @override
