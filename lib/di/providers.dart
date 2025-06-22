@@ -28,6 +28,10 @@ final addEditNoteUiEventProvider = StreamProvider<AddEditNoteUiEvent>(
   (ref) => ref.watch(addEditNoteVMProvider.notifier).uiEventStream,
 );
 
+final notesScreenUiEventProvider = StreamProvider<NotesScreenUiEvent>(
+  (ref) => ref.watch(noteVMProvider.notifier).uiEventStream,
+);
+
 final useCasesProvider = Provider<NoteUseCases>((ref) {
   final repository = ref.read(noteRepProvider);
   return NoteUseCases(

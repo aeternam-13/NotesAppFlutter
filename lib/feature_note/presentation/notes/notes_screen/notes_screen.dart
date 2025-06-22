@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
-import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/go_to_add_edit_note.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/note_screen_header.dart';
@@ -14,12 +11,16 @@ import 'package:notesappflutter/feature_note/presentation/notes/notes_viewmodel.
 import 'package:notesappflutter/feature_note/presentation/safe_scope.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_event.dart';
 
-class NotesScreen extends ConsumerWidget {
+class NotesScreen extends ConsumerStatefulWidget {
   const NotesScreen({super.key});
 
-  void _addEditNote(BuildContext context, {int noteId = -1}) {
-    log("Si entrooo");
-    if (!context.mounted) return;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _NotesScreenState();
+}
+
+class _NotesScreenState extends ConsumerState<NotesScreen> {
+  void _addEditNote({int noteId = -1}) {
+    if (!mounted) return;
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AddEditNoteScreen(noteId: noteId),
@@ -27,39 +28,45 @@ class NotesScreen extends ConsumerWidget {
     );
   }
 
-  void _deleteNote(BuildContext context, Note note, NoteViewModel viewmodel) {
-    viewmodel.onEvent(EventDeleteNote(note));
+  void _onUiEvent(NotesScreenUiEvent event, NoteViewModel viewmodel) {
+    switch (event) {
+      case ShowSnackBarWithUndo():
+        final theme = Theme.of(context);
+        final snackBar = SnackBar(
+          duration: Duration(seconds: 3),
+          action: SnackBarAction(
+            label: "Undo",
+            textColor: theme.colorScheme.onSurface,
+            backgroundColor: theme.colorScheme.surface,
+            onPressed: event.undoCallback,
+          ),
+          content: Text(
+            event.message,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.surface,
+              fontSize: 17,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.primary,
+        );
 
-    final theme = Theme.of(context);
-    final snackBar = SnackBar(
-      duration: Duration(seconds: 3),
-      action: SnackBarAction(
-        label: "Undo",
-        textColor: theme.colorScheme.onSurface,
-        backgroundColor: theme.colorScheme.surface,
-        onPressed: () => viewmodel.onEvent(EventRestoreNote()),
-      ),
-      content: Text(
-        "Note deleted",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: theme.colorScheme.surface,
-          fontSize: 17,
-        ),
-      ),
-      backgroundColor: theme.colorScheme.primary,
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     NotesState state = ref.watch(noteVMProvider);
     final viewmodel = ref.read(noteVMProvider.notifier);
-
+    ref.listen<AsyncValue<NotesScreenUiEvent>>(notesScreenUiEventProvider, (
+      prev,
+      next,
+    ) {
+      next.whenData((event) => _onUiEvent(event, viewmodel));
+    });
     return SafeScope(
-      floatingButton: GoToAddEditNote(callback: () => _addEditNote(context)),
+      floatingButton: GoToAddEditNote(callback: () => _addEditNote()),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -68,10 +75,10 @@ class NotesScreen extends ConsumerWidget {
             switch (state) {
               NotesStateSuccess() => NotesScreenSuccess(
                 state: state.state,
-                deleteNote: (note) => _deleteNote(context, note, viewmodel),
+                deleteNote: (note) => viewmodel.onEvent(EventDeleteNote(note)),
                 orderNotes:
                     (noteOrder) => viewmodel.onEvent(EventOrder(noteOrder)),
-                addEditNote: (noteId) => _addEditNote(context, noteId: noteId),
+                addEditNote: (noteId) => _addEditNote(noteId: noteId),
               ),
 
               NotesStateError() => throw UnimplementedError(),

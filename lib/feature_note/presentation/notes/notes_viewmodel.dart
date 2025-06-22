@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
@@ -6,7 +7,6 @@ import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/order_type.dart';
-import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_viewmodel.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_event.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state_holder.dart';
@@ -17,9 +17,9 @@ class NoteViewModel extends StateNotifier<NotesState> {
   Note? _recentlyDeletedNote;
   var _state = NotesStateHolder();
 
-  final _uiEventController = StreamController<AddEditNoteUiEvent>.broadcast();
+  final _uiEventController = StreamController<NotesScreenUiEvent>.broadcast();
 
-  Stream<AddEditNoteUiEvent> get uiEventStream => _uiEventController.stream;
+  Stream<NotesScreenUiEvent> get uiEventStream => _uiEventController.stream;
 
   NoteViewModel(this._useCases) : super(NotesStateLoading()) {
     _getNotes(const NoteOrderDate(Descending()));
@@ -37,6 +37,12 @@ class NoteViewModel extends StateNotifier<NotesState> {
       case EventDeleteNote(note: var note):
         _useCases.deleteNote(note.id);
         _recentlyDeletedNote = note;
+        _uiEventController.add(
+          ShowSnackBarWithUndo(
+            message: "Note deleted",
+            undoCallback: () => onEvent(EventRestoreNote()),
+          ),
+        );
 
       case EventRestoreNote():
         if (_recentlyDeletedNote != null) {
@@ -83,7 +89,7 @@ sealed class NotesScreenUiEvent {}
 
 class ShowSnackBarWithUndo extends NotesScreenUiEvent {
   final String message;
-  final Function undoCallback;
+  final VoidCallback undoCallback;
 
   ShowSnackBarWithUndo({required this.message, required this.undoCallback});
 }
