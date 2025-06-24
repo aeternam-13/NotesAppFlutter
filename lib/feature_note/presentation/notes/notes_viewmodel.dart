@@ -55,6 +55,9 @@ class NoteViewModel extends StateNotifier<NotesState> {
           isOrderSectionVisible: !_state.isOrderSectionVisible,
         );
         state = NotesStateSuccess(state: _state);
+
+      case EventGoToAddEditNote():
+        _uiEventController.add(NavigateToAddEditNote(noteId: event.noteId));
     }
   }
 
@@ -92,4 +95,10 @@ class ShowSnackBarWithUndo extends NotesScreenUiEvent {
   final VoidCallback undoCallback;
 
   ShowSnackBarWithUndo({required this.message, required this.undoCallback});
+}
+
+class NavigateToAddEditNote extends NotesScreenUiEvent {
+  final int noteId;
+
+  NavigateToAddEditNote({required this.noteId});
 }

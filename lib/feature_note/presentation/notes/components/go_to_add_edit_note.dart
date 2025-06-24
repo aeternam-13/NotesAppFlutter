@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GoToAddEditNote extends StatelessWidget {
-  const GoToAddEditNote({super.key, required this.callback});
+class GoToAddEditNoteButton extends StatelessWidget {
+  const GoToAddEditNoteButton({super.key, required this.callback});
 
   final VoidCallback callback;
 

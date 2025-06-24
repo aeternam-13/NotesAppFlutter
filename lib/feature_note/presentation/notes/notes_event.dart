@@ -18,3 +18,9 @@ class EventDeleteNote extends NotesEvent {
 class EventRestoreNote extends NotesEvent {}
 
 class EventToggleOrderSection extends NotesEvent {}
+
+class EventGoToAddEditNote extends NotesEvent {
+  final int noteId;
+
+  EventGoToAddEditNote({this.noteId = -1});
+}
