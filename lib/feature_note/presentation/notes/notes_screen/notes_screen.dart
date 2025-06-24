@@ -5,6 +5,7 @@ import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit
 import 'package:notesappflutter/feature_note/presentation/common_components/snackbar_undo.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/go_to_add_edit_note.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/note_screen_header.dart';
+import 'package:notesappflutter/feature_note/presentation/notes/notes_screen/notes_screen_error.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_screen/notes_screen_loading.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_screen/notes_screen_success.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
@@ -60,7 +61,9 @@ class NotesScreen extends ConsumerWidget {
                 addEditNote: (noteId) => GoToAddEditNoteIntent(noteId: noteId),
               ),
 
-              NotesStateError() => throw UnimplementedError(),
+              NotesStateError() => NotesScreenError(
+                exception: screenState.exception,
+              ),
 
               NotesStateLoading() => NotesScreenLoading(),
             },
