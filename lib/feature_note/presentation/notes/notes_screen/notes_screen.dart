@@ -44,7 +44,7 @@ class NotesScreen extends ConsumerWidget {
 
     return SafeScope(
       floatingButton: GoToAddEditNoteButton(
-        callback: () => GoToAddEditNoteIntent(),
+        callback: () => viewmodel.onIntent(GoToAddEditNoteIntent()),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -58,7 +58,10 @@ class NotesScreen extends ConsumerWidget {
                     (note) => viewmodel.onIntent(DeleteNoteIntent(note)),
                 orderNotes:
                     (noteOrder) => viewmodel.onIntent(OrderIntent(noteOrder)),
-                addEditNote: (noteId) => GoToAddEditNoteIntent(noteId: noteId),
+                addEditNote:
+                    (noteId) => viewmodel.onIntent(
+                      GoToAddEditNoteIntent(noteId: noteId),
+                    ),
               ),
 
               NotesStateError() => NotesScreenError(
