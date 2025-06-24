@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
-import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_event.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_intent.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_state.dart';
 
 class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
@@ -15,19 +15,19 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
 
   Stream<AddEditNoteUiEvent> get uiEventStream => _uiEventController.stream;
 
-  void onEvent(AddEditNoteEvent event) async {
+  void onEvent(AddEditNoteIntent event) async {
     switch (event) {
-      case EnteredTitle():
+      case EnteredTitleIntent():
         state = state.copyWith(
           noteTitle: state.noteTitle.copyWith(text: event.value),
         );
-      case EnteredContent():
+      case EnteredContentIntent():
         state = state.copyWith(
           noteContent: state.noteContent.copyWith(text: event.value),
         );
-      case ChangeColor():
+      case ChangeNoteColorIntent():
         state = state.copyWith(noteColor: event.color);
-      case SaveNote():
+      case SaveNoteIntent():
         int timestamp = _getTimestamp();
         log(timestamp.toString());
         try {

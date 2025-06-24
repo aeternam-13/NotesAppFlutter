@@ -10,7 +10,7 @@ import 'package:notesappflutter/feature_note/presentation/notes/notes_screen/not
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_viewmodel.dart';
 import 'package:notesappflutter/feature_note/presentation/safe_scope.dart';
-import 'package:notesappflutter/feature_note/presentation/notes/notes_event.dart';
+import 'package:notesappflutter/feature_note/presentation/notes/notes_intent.dart';
 
 class NotesScreen extends ConsumerWidget {
   const NotesScreen({super.key});
@@ -31,7 +31,7 @@ class NotesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    NotesState state = ref.watch(noteVMProvider);
+    NotesState screenState = ref.watch(noteVMProvider);
     final viewmodel = ref.read(noteVMProvider.notifier);
 
     ref.listen<AsyncValue<NotesScreenUiEvent>>(notesScreenUiEventProvider, (
@@ -43,20 +43,21 @@ class NotesScreen extends ConsumerWidget {
 
     return SafeScope(
       floatingButton: GoToAddEditNoteButton(
-        callback: () => EventGoToAddEditNote(),
+        callback: () => GoToAddEditNoteIntent(),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             NoteScreenHeader(),
-            switch (state) {
+            switch (screenState) {
               NotesStateSuccess() => NotesScreenSuccess(
-                state: state.state,
-                deleteNote: (note) => viewmodel.onEvent(EventDeleteNote(note)),
+                state: screenState.state,
+                deleteNote:
+                    (note) => viewmodel.onIntent(DeleteNoteIntent(note)),
                 orderNotes:
-                    (noteOrder) => viewmodel.onEvent(EventOrder(noteOrder)),
-                addEditNote: (noteId) => EventGoToAddEditNote(noteId: noteId),
+                    (noteOrder) => viewmodel.onIntent(OrderIntent(noteOrder)),
+                addEditNote: (noteId) => GoToAddEditNoteIntent(noteId: noteId),
               ),
 
               NotesStateError() => throw UnimplementedError(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
-import 'package:notesappflutter/feature_note/presentation/notes/notes_event.dart';
+import 'package:notesappflutter/feature_note/presentation/notes/notes_intent.dart';
 
 class NoteScreenHeader extends ConsumerWidget {
   const NoteScreenHeader({super.key});
@@ -15,7 +15,7 @@ class NoteScreenHeader extends ConsumerWidget {
       children: [
         Text("NotesApp Flutter", style: theme.textTheme.headlineLarge),
         IconButton(
-          onPressed: () => viewmodel.onEvent(EventToggleOrderSection()),
+          onPressed: () => viewmodel.onIntent(ToggleOrderSectionIntent()),
           icon: Icon(Icons.settings, size: 32),
         ),
       ],

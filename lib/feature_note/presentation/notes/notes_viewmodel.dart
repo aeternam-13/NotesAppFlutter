@@ -7,7 +7,7 @@ import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/order_type.dart';
-import 'package:notesappflutter/feature_note/presentation/notes/notes_event.dart';
+import 'package:notesappflutter/feature_note/presentation/notes/notes_intent.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/notes_state_holder.dart';
 
@@ -25,38 +25,38 @@ class NoteViewModel extends StateNotifier<NotesState> {
     _getNotes(const NoteOrderDate(Descending()));
   }
 
-  void onEvent(NotesEvent event) {
+  void onIntent(NotesIntent event) {
     switch (event) {
-      case EventOrder():
+      case OrderIntent():
         if (_state.noteOrder.runtimeType == event.noteOrder.runtimeType &&
             _state.noteOrder.orderType == event.noteOrder.orderType) {
           return;
         }
         _getNotes(event.noteOrder);
 
-      case EventDeleteNote(note: var note):
+      case DeleteNoteIntent(note: var note):
         _useCases.deleteNote(note.id);
         _recentlyDeletedNote = note;
         _uiEventController.add(
           ShowSnackBarWithUndo(
             message: "Note deleted",
-            undoCallback: () => onEvent(EventRestoreNote()),
+            undoCallback: () => onIntent(RestoreNoteIntent()),
           ),
         );
 
-      case EventRestoreNote():
+      case RestoreNoteIntent():
         if (_recentlyDeletedNote != null) {
           _useCases.addNote(_recentlyDeletedNote!);
           _recentlyDeletedNote = null;
         }
 
-      case EventToggleOrderSection():
+      case ToggleOrderSectionIntent():
         _state = _state.copyWith(
           isOrderSectionVisible: !_state.isOrderSectionVisible,
         );
         state = NotesStateSuccess(state: _state);
 
-      case EventGoToAddEditNote():
+      case GoToAddEditNoteIntent():
         _uiEventController.add(NavigateToAddEditNote(noteId: event.noteId));
     }
   }
