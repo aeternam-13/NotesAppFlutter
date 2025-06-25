@@ -6,10 +6,10 @@ import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_intent.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_state.dart';
 
-class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
+class AddEditNoteViewModel extends StateNotifier<AddEditNoteStateHolder> {
   final NoteUseCases _useCases;
 
-  AddEditNoteViewModel(this._useCases) : super(AddEditNoteState());
+  AddEditNoteViewModel(this._useCases) : super(AddEditNoteStateHolder());
 
   final _uiEventController = StreamController<AddEditNoteUiEvent>.broadcast();
 
@@ -41,7 +41,7 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
             ),
           );
           _uiEventController.add(SavedNote());
-          state = AddEditNoteState();
+          state = AddEditNoteStateHolder();
           log(state.noteColor.toString());
         } on InvalidNoteException catch (e) {
           _uiEventController.add(ShowSnackBar(message: e.message));
