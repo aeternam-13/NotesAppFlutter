@@ -52,18 +52,19 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
       floatingActionButton:
           state is EditingNoteState
               ? AddEditNoteAction(
-                callback: () => viewmodel.onEvent(SaveNoteIntent()),
+                callback: () => viewmodel.onIntent(SaveNoteIntent()),
               )
               : null,
       body: switch (state) {
         EditingNoteState() => AddEditNoteScreenEditing(
           stateHolder: state.stateHolder,
           changeColor:
-              (color) => viewmodel.onEvent(ChangeNoteColorIntent(color: color)),
+              (color) =>
+                  viewmodel.onIntent(ChangeNoteColorIntent(color: color)),
           onTitleChange:
-              (val) => viewmodel.onEvent(EnteredTitleIntent(value: val)),
+              (val) => viewmodel.onIntent(EnteredTitleIntent(value: val)),
           onContentChange:
-              (val) => viewmodel.onEvent(EnteredContentIntent(value: val)),
+              (val) => viewmodel.onIntent(EnteredContentIntent(value: val)),
         ),
 
         AddEditNoteLoadingState() => AddEditNoteScreenLoading(),

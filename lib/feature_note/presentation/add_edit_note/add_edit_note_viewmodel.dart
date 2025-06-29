@@ -17,7 +17,7 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
 
   Stream<AddEditNoteUiEvent> get uiEventStream => _uiEventController.stream;
 
-  void onEvent(AddEditNoteIntent event) async {
+  void onIntent(AddEditNoteIntent event) async {
     switch (event) {
       case EnteredTitleIntent():
         _stateHolder = _stateHolder.copyWith(
