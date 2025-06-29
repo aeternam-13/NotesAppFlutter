@@ -19,7 +19,7 @@ final noteVMProvider = StateNotifierProvider<NoteViewModel, NotesState>((ref) {
 });
 
 final addEditNoteVMProvider =
-    StateNotifierProvider<AddEditNoteViewModel, AddEditNoteStateHolder>((ref) {
+    StateNotifierProvider<AddEditNoteViewModel, AddEditNoteState>((ref) {
       final useCases = ref.read(useCasesProvider);
       return AddEditNoteViewModel(useCases);
     });

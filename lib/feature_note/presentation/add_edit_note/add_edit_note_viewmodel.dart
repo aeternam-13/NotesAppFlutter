@@ -5,11 +5,13 @@ import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_intent.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_state.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_state_holder.dart';
 
-class AddEditNoteViewModel extends StateNotifier<AddEditNoteStateHolder> {
+class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
   final NoteUseCases _useCases;
+  var _stateHolder = AddEditNoteStateHolder();
 
-  AddEditNoteViewModel(this._useCases) : super(AddEditNoteStateHolder());
+  AddEditNoteViewModel(this._useCases) : super(AddEditNoteLoadingState());
 
   final _uiEventController = StreamController<AddEditNoteUiEvent>.broadcast();
 
@@ -18,31 +20,33 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteStateHolder> {
   void onEvent(AddEditNoteIntent event) async {
     switch (event) {
       case EnteredTitleIntent():
-        state = state.copyWith(
-          noteTitle: state.noteTitle.copyWith(text: event.value),
+        _stateHolder = _stateHolder.copyWith(
+          noteTitle: _stateHolder.noteTitle.copyWith(text: event.value),
         );
+        state = EditingNoteState(stateHolder: _stateHolder);
       case EnteredContentIntent():
-        state = state.copyWith(
-          noteContent: state.noteContent.copyWith(text: event.value),
+        _stateHolder = _stateHolder.copyWith(
+          noteContent: _stateHolder.noteContent.copyWith(text: event.value),
         );
+        state = EditingNoteState(stateHolder: _stateHolder);
       case ChangeNoteColorIntent():
-        state = state.copyWith(noteColor: event.color);
+        _stateHolder = _stateHolder.copyWith(noteColor: event.color);
+        state = EditingNoteState(stateHolder: _stateHolder);
       case SaveNoteIntent():
         int timestamp = _getTimestamp();
         log(timestamp.toString());
         try {
           await _useCases.addNote(
             Note(
-              title: state.noteTitle.text,
-              content: state.noteContent.text,
+              title: _stateHolder.noteTitle.text,
+              content: _stateHolder.noteContent.text,
               timestamp: timestamp,
-              color: state.noteColor,
-              id: state.currentNoteId,
+              color: _stateHolder.noteColor,
+              id: _stateHolder.currentNoteId,
             ),
           );
           _uiEventController.add(SavedNote());
-          state = AddEditNoteStateHolder();
-          log(state.noteColor.toString());
+          _stateHolder = AddEditNoteStateHolder();
         } on InvalidNoteException catch (e) {
           _uiEventController.add(ShowSnackBar(message: e.message));
         } catch (e) {
@@ -55,14 +59,16 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteStateHolder> {
     if (noteId != -1) {
       final note = await _useCases.getNote(noteId);
       if (note != null) {
-        state = state.copyWith(
-          noteTitle: state.noteTitle.copyWith(text: note.title),
-          noteContent: state.noteContent.copyWith(text: note.content),
+        _stateHolder = _stateHolder.copyWith(
+          noteTitle: _stateHolder.noteTitle.copyWith(text: note.title),
+          noteContent: _stateHolder.noteContent.copyWith(text: note.content),
           noteColor: note.color,
           currentNoteId: note.id,
         );
       }
     }
+
+    state = EditingNoteState(stateHolder: _stateHolder);
   }
 }
 

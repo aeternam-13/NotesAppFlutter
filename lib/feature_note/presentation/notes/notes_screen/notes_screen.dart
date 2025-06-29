@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/di/providers.dart';
-import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_screen.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_screen/add_edit_note_screen.dart';
 import 'package:notesappflutter/feature_note/presentation/common_components/snackbar_undo.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/go_to_add_edit_note.dart';
 import 'package:notesappflutter/feature_note/presentation/notes/components/note_screen_header.dart';

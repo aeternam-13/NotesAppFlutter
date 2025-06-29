@@ -1,6 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
-import 'package:notesappflutter/feature_note/presentation/add_edit_note/note_text_field_state.dart';
+import 'package:notesappflutter/feature_note/presentation/add_edit_note/note_text_field/note_text_field_state.dart';
 
 part 'add_edit_note_state_holder.mapper.dart';
 
