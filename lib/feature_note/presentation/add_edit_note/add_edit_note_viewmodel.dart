@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
@@ -37,7 +36,6 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
 
       case SaveNoteIntent():
         int timestamp = _getTimestamp();
-        log(timestamp.toString());
 
         final trySaveNote = await _useCases.addNote(
           Note(

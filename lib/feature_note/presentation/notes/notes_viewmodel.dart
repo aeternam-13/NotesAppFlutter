@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -72,10 +73,15 @@ class NoteViewModel extends StateNotifier<NotesState> {
         result.map(
           successMapper: (notes) {
             _state = _state.copyWith(notes: notes, noteOrder: noteOrder);
+            log("si llego aquiiii");
+            log("puto");
+            log(_state.notes.first.toString());
             state = NotesStateSuccess(state: _state);
           },
-          errorMapper:
-              (exception) => state = NotesStateError(exception: exception),
+          errorMapper: (exception) {
+            state = NotesStateError(exception: exception);
+            log("me estoy mueriendo alv");
+          },
         );
       },
       onError:

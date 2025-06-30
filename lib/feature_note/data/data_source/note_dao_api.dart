@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
@@ -54,9 +53,9 @@ class NoteDaoApi extends NoteDao {
     try {
       final response = await http
           .put(
-            Uri.parse(_baseUrl),
+            Uri.parse('$_baseUrl/${note.id}'),
             headers: _buildHeaders(),
-            body: jsonEncode(note.toJson()),
+            body: note.toJson(),
           )
           .timeout(
             Duration(seconds: _requestTimeout),
@@ -82,12 +81,11 @@ class NoteDaoApi extends NoteDao {
 
   void _replaceWhere(Note note) {
     _notes.removeWhere((element) => element.id == note.id);
-    _notes.add(note);
+    _notes = [note, ..._notes];
     _streamController.add(Success(_notes));
   }
 
   Future<Result<Unit, NoteException>> _saveNewNote(Note note) async {
-    log("Save new noteee");
     try {
       final response = await http
           .post(
@@ -116,7 +114,6 @@ class NoteDaoApi extends NoteDao {
           );
       }
     } catch (e) {
-      log(e.toString());
       return Error(
         NoteApiException("Error creating the new Note FATAL", 99999),
       );
@@ -134,7 +131,6 @@ class NoteDaoApi extends NoteDao {
       }
       return notes;
     } catch (e) {
-      log(e.toString());
       rethrow;
     }
   }
