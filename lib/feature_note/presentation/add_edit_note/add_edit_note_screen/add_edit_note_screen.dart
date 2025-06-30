@@ -23,7 +23,10 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(addEditNoteVMProvider.notifier).loadNote(widget.noteId);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(addEditNoteVMProvider.notifier).loadNote(widget.noteId);
+    });
   }
 
   void _onUiEvent(AddEditNoteUiEvent event) {

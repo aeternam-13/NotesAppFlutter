@@ -40,8 +40,3 @@ class Note extends HiveObject with NoteMappable {
   static int randomColor() =>
       noteColors[_random.nextInt(noteColors.length)].toARGB32();
 }
-
-class InvalidNoteException implements Exception {
-  final String message;
-  InvalidNoteException(this.message);
-}

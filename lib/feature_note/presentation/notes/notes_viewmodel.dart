@@ -58,6 +58,9 @@ class NoteViewModel extends StateNotifier<NotesState> {
 
       case GoToAddEditNoteIntent():
         _uiEventController.add(NavigateToAddEditNote(noteId: event.noteId));
+
+      case GetNotesIntent():
+        _getNotes(_state.noteOrder);
     }
   }
 

@@ -15,6 +15,8 @@ class DeleteNoteIntent extends NotesIntent {
   DeleteNoteIntent(this.note);
 }
 
+class GetNotesIntent extends NotesIntent {}
+
 class RestoreNoteIntent extends NotesIntent {}
 
 class ToggleOrderSectionIntent extends NotesIntent {}

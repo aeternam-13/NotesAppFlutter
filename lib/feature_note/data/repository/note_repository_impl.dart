@@ -10,7 +10,7 @@ class NoteRepositoryImpl implements NoteRepository {
   NoteRepositoryImpl(this._dao);
 
   @override
-  Future<void> deleteNote(int id) => _dao.deleteNote(id);
+  Future<Result<Unit, NoteException>> deleteNote(int id) => _dao.deleteNote(id);
 
   @override
   Future<Note?> getNoteById(int id) => _dao.getNoteById(id);
@@ -19,5 +19,6 @@ class NoteRepositoryImpl implements NoteRepository {
   Stream<Result<List<Note>, NoteException>> getNotes() => _dao.getNotes();
 
   @override
-  Future<void> insertNote(Note note) => _dao.insertNote(note);
+  Future<Result<Unit, NoteException>> insertNote(Note note) =>
+      _dao.insertNote(note);
 }

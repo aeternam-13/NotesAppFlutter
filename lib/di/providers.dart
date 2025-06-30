@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/feature_note/data/data_source/note_dao.dart';
+import 'package:notesappflutter/feature_note/data/data_source/note_dao_api.dart';
 import 'package:notesappflutter/feature_note/data/data_source/note_dao_hive.dart';
 import 'package:notesappflutter/feature_note/data/repository/note_repository_impl.dart';
 import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
@@ -47,4 +48,4 @@ final noteRepProvider = Provider<NoteRepository>((ref) {
   return NoteRepositoryImpl(dao);
 });
 
-final noteDaoProvider = Provider<NoteDao>((ref) => NoteDaoHive());
+final noteDaoProvider = Provider<NoteDao>((ref) => NoteDaoApi());

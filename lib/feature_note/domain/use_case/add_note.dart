@@ -1,4 +1,6 @@
+import 'package:multiple_result/multiple_result.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
+import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
 
 class AddNote {
@@ -6,13 +8,13 @@ class AddNote {
 
   AddNote(this.repository);
 
-  Future<void> call(Note note) async {
+  Future<Result<Unit, NoteException>> call(Note note) async {
     if (note.title.trim().isEmpty) {
-      throw InvalidNoteException("Title can't be empty");
+      return Error(InvalidNoteException("Title can't be empty"));
     }
     if (note.content.trim().isEmpty) {
-      throw InvalidNoteException('Content is empty');
+      return Error(InvalidNoteException('Content is empty'));
     }
-    await repository.insertNote(note);
+    return await repository.insertNote(note);
   }
 }

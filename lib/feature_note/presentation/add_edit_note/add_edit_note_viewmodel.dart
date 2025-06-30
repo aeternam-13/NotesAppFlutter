@@ -24,34 +24,40 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
           noteTitle: _stateHolder.noteTitle.copyWith(text: event.value),
         );
         state = EditingNoteState(stateHolder: _stateHolder);
+
       case EnteredContentIntent():
         _stateHolder = _stateHolder.copyWith(
           noteContent: _stateHolder.noteContent.copyWith(text: event.value),
         );
         state = EditingNoteState(stateHolder: _stateHolder);
+
       case ChangeNoteColorIntent():
         _stateHolder = _stateHolder.copyWith(noteColor: event.color);
         state = EditingNoteState(stateHolder: _stateHolder);
+
       case SaveNoteIntent():
         int timestamp = _getTimestamp();
         log(timestamp.toString());
-        try {
-          await _useCases.addNote(
-            Note(
-              title: _stateHolder.noteTitle.text,
-              content: _stateHolder.noteContent.text,
-              timestamp: timestamp,
-              color: _stateHolder.noteColor,
-              id: _stateHolder.currentNoteId,
-            ),
-          );
-          _uiEventController.add(SavedNote());
-          _stateHolder = AddEditNoteStateHolder();
-        } on InvalidNoteException catch (e) {
-          _uiEventController.add(ShowSnackBar(message: e.message));
-        } catch (e) {
-          log("Error ${e.toString()}");
-        }
+
+        final trySaveNote = await _useCases.addNote(
+          Note(
+            title: _stateHolder.noteTitle.text,
+            content: _stateHolder.noteContent.text,
+            timestamp: timestamp,
+            color: _stateHolder.noteColor,
+            id: _stateHolder.currentNoteId,
+          ),
+        );
+
+        trySaveNote.map(
+          successMapper: (_) {
+            _uiEventController.add(SavedNote());
+            _stateHolder = AddEditNoteStateHolder();
+          },
+          errorMapper:
+              (error) =>
+                  _uiEventController.add(ShowSnackBar(message: error.message)),
+        );
     }
   }
 

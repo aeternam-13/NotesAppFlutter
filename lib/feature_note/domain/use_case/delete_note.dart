@@ -1,3 +1,5 @@
+import 'package:multiple_result/multiple_result.dart';
+import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
 
 class DeleteNote {
@@ -5,7 +7,7 @@ class DeleteNote {
 
   DeleteNote(this.repository);
 
-  Future<void> call(int id) async {
-    await repository.deleteNote(id);
+  Future<Result<Unit, NoteException>> call(int id) async {
+    return await repository.deleteNote(id);
   }
 }

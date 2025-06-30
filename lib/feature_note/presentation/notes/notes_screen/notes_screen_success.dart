@@ -21,36 +21,34 @@ class NotesScreenSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          OrderSection(
-            isVisible: state.isOrderSectionVisible,
-            noteOrder: state.noteOrder,
-            onOrderChange: orderNotes,
-          ),
+    return Column(
+      children: [
+        OrderSection(
+          isVisible: state.isOrderSectionVisible,
+          noteOrder: state.noteOrder,
+          onOrderChange: orderNotes,
+        ),
 
-          SizedBox(height: 16),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                spacing: 16,
-                runSpacing: 16,
-                children: [
-                  ...state.notes.map(
-                    (note) => NoteItem(
-                      note: note,
-                      onTap: () => addEditNote(note.id),
-                      onDelete: () => deleteNote(note),
-                    ),
+        SizedBox(height: 16),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                ...state.notes.map(
+                  (note) => NoteItem(
+                    note: note,
+                    onTap: () => addEditNote(note.id),
+                    onDelete: () => deleteNote(note),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

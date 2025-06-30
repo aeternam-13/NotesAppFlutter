@@ -7,7 +7,7 @@ abstract class NoteRepository {
 
   Future<Note?> getNoteById(int id);
 
-  Future<void> insertNote(Note note);
+  Future<Result<Unit, NoteException>> insertNote(Note note);
 
-  Future<void> deleteNote(int id);
+  Future<Result<Unit, NoteException>> deleteNote(int id);
 }

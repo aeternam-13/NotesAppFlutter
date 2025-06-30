@@ -51,25 +51,28 @@ class NotesScreen extends ConsumerWidget {
         child: Column(
           children: [
             NoteScreenHeader(),
-            switch (screenState) {
-              NotesStateSuccess() => NotesScreenSuccess(
-                state: screenState.state,
-                deleteNote:
-                    (note) => viewmodel.onIntent(DeleteNoteIntent(note)),
-                orderNotes:
-                    (noteOrder) => viewmodel.onIntent(OrderIntent(noteOrder)),
-                addEditNote:
-                    (noteId) => viewmodel.onIntent(
-                      GoToAddEditNoteIntent(noteId: noteId),
-                    ),
-              ),
+            Expanded(
+              child: switch (screenState) {
+                NotesStateSuccess() => NotesScreenSuccess(
+                  state: screenState.state,
+                  deleteNote:
+                      (note) => viewmodel.onIntent(DeleteNoteIntent(note)),
+                  orderNotes:
+                      (noteOrder) => viewmodel.onIntent(OrderIntent(noteOrder)),
+                  addEditNote:
+                      (noteId) => viewmodel.onIntent(
+                        GoToAddEditNoteIntent(noteId: noteId),
+                      ),
+                ),
 
-              NotesStateError() => NotesScreenError(
-                exception: screenState.exception,
-              ),
+                NotesStateError() => NotesScreenError(
+                  exception: screenState.exception,
+                  retry: () => viewmodel.onIntent(GetNotesIntent()),
+                ),
 
-              NotesStateLoading() => NotesScreenLoading(),
-            },
+                NotesStateLoading() => NotesScreenLoading(),
+              },
+            ),
           ],
         ),
       ),

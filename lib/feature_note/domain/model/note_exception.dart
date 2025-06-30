@@ -11,3 +11,7 @@ class NoteApiException extends NoteException {
 class NoteStreamException extends NoteException {
   NoteStreamException(super.message);
 }
+
+class InvalidNoteException extends NoteException {
+  InvalidNoteException(super.message);
+}

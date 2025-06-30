@@ -6,7 +6,9 @@ class NotesScreenLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(children: [Text("Loading"), CircularProgressIndicator()]),
+      child: Column(
+        children: [Text("Loading notes"), CircularProgressIndicator()],
+      ),
     );
   }
 }
