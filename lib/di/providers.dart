@@ -8,6 +8,7 @@ import 'package:notesappflutter/feature_note/domain/use_case/add_note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/delete_note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/get_note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/get_notes.dart';
+import 'package:notesappflutter/feature_note/domain/use_case/save_note.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_state.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_viewmodel.dart';
@@ -38,8 +39,9 @@ final useCasesProvider = Provider<NoteUseCases>((ref) {
   return NoteUseCases(
     getNotes: GetNotes(repository),
     deleteNote: DeleteNote(repository),
-    addNote: AddNote(repository),
+    updateNote: AddNote(repository),
     getNote: GetNote(repository),
+    saveNote: SaveNote(repository),
   );
 });
 

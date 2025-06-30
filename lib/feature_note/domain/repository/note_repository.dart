@@ -9,5 +9,7 @@ abstract class NoteRepository {
 
   Future<Result<Unit, NoteException>> insertNote(Note note);
 
+  Future<Result<Unit, NoteException>> saveNote(Note note);
+
   Future<Result<Unit, NoteException>> deleteNote(int id);
 }

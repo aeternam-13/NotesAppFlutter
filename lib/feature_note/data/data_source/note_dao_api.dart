@@ -17,8 +17,31 @@ class NoteDaoApi extends NoteDao {
   List<Note> _notes = [];
 
   @override
-  Future<Result<Unit, NoteException>> deleteNote(int id) {
-    throw UnimplementedError();
+  Future<Result<Unit, NoteException>> deleteNote(int id) async {
+    try {
+      final response = await http
+          .delete(Uri.parse('$_baseUrl/$id'), headers: _buildHeaders())
+          .timeout(
+            Duration(seconds: _requestTimeout),
+            onTimeout: () => _timeoutResponse(),
+          );
+      switch (response.statusCode) {
+        case HttpStatus.noContent:
+          _notes.removeWhere((element) => element.id == id);
+          _notes = [..._notes];
+          _streamController.add(Success(_notes));
+          return Success(unit);
+        default:
+          return Error(
+            NoteApiException(
+              response.reasonPhrase ?? "Error updating the Note",
+              response.statusCode,
+            ),
+          );
+      }
+    } catch (e) {
+      return Error(NoteApiException("Error during api request", 99999));
+    }
   }
 
   @override
@@ -34,7 +57,7 @@ class NoteDaoApi extends NoteDao {
   Stream<Result<List<Note>, NoteException>> getNotes() async* {
     final res = await _readAllNotes();
 
-    res.mapSuccess((notes) => _notes = notes);
+    res.mapSuccess((notes) => _notes = [...notes]);
 
     yield res;
 
@@ -42,10 +65,7 @@ class NoteDaoApi extends NoteDao {
   }
 
   @override
-  Future<Result<Unit, NoteException>> insertNote(Note note) async {
-    if (note.id == -1) {
-      return await _saveNewNote(note);
-    }
+  Future<Result<Unit, NoteException>> updateNote(Note note) async {
     return await _updateNote(note);
   }
 
@@ -63,8 +83,9 @@ class NoteDaoApi extends NoteDao {
           );
       switch (response.statusCode) {
         case HttpStatus.ok:
-          final Note note = await compute(_parseNote, response.body);
+          final Note note = _parseNote(response.body);
           _replaceWhere(note);
+          _streamController.add(Success(_notes));
           return Success(unit);
         default:
           return Error(
@@ -85,7 +106,8 @@ class NoteDaoApi extends NoteDao {
     _streamController.add(Success(_notes));
   }
 
-  Future<Result<Unit, NoteException>> _saveNewNote(Note note) async {
+  @override
+  Future<Result<Unit, NoteException>> saveNote(Note note) async {
     try {
       final response = await http
           .post(
@@ -99,10 +121,9 @@ class NoteDaoApi extends NoteDao {
           );
       switch (response.statusCode) {
         case HttpStatus.created:
-          final Note note = await compute(_parseNote, response.body);
+          final Note note = _parseNote(response.body);
 
-          _notes.add(note);
-
+          _notes = [..._notes, note];
           _streamController.add(Success(_notes));
           return Success(unit);
         default:

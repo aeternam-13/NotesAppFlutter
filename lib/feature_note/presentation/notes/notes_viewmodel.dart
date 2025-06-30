@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -47,7 +46,7 @@ class NoteViewModel extends StateNotifier<NotesState> {
 
       case RestoreNoteIntent():
         if (_recentlyDeletedNote != null) {
-          _useCases.addNote(_recentlyDeletedNote!);
+          _useCases.saveNote(_recentlyDeletedNote!);
           _recentlyDeletedNote = null;
         }
 
@@ -71,16 +70,12 @@ class NoteViewModel extends StateNotifier<NotesState> {
     _noteStream = _useCases.getNotes(noteOrder: noteOrder).listen(
       (result) {
         result.map(
-          successMapper: (notes) {
-            _state = _state.copyWith(notes: notes, noteOrder: noteOrder);
-            log("si llego aquiiii");
-            log("puto");
-            log(_state.notes.first.toString());
+          successMapper: (notesN) {
+            _state = _state.copyWith(notes: notesN, noteOrder: noteOrder);
             state = NotesStateSuccess(state: _state);
           },
           errorMapper: (exception) {
             state = NotesStateError(exception: exception);
-            log("me estoy mueriendo alv");
           },
         );
       },

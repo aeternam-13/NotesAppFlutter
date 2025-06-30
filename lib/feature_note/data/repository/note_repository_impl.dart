@@ -20,5 +20,9 @@ class NoteRepositoryImpl implements NoteRepository {
 
   @override
   Future<Result<Unit, NoteException>> insertNote(Note note) =>
-      _dao.insertNote(note);
+      _dao.updateNote(note);
+
+  @override
+  Future<Result<Unit, NoteException>> saveNote(Note note) =>
+      _dao.saveNote(note);
 }

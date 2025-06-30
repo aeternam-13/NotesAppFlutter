@@ -28,11 +28,11 @@ class NotesScreenSuccess extends StatelessWidget {
           noteOrder: state.noteOrder,
           onOrderChange: orderNotes,
         ),
-
         SizedBox(height: 16),
         Expanded(
           child: SingleChildScrollView(
             child: Wrap(
+              key: ValueKey(state.hashCode),
               alignment: WrapAlignment.start,
               spacing: 16,
               runSpacing: 16,

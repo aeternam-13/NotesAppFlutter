@@ -7,7 +7,9 @@ abstract class NoteDao {
 
   Future<Note?> getNoteById(int id);
 
-  Future<Result<Unit, NoteException>> insertNote(Note note);
+  Future<Result<Unit, NoteException>> updateNote(Note note);
 
   Future<Result<Unit, NoteException>> deleteNote(int id);
+
+  Future<Result<Unit, NoteException>> saveNote(Note note);
 }

@@ -6,14 +6,14 @@ import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dar
 import 'package:notesappflutter/feature_note/domain/use_case/util/order_type.dart';
 
 class GetNotes {
-  final NoteRepository repository;
+  final NoteRepository _repository;
 
-  GetNotes(this.repository);
+  GetNotes(this._repository);
 
   Stream<Result<List<Note>, NoteException>> call({
     NoteOrder noteOrder = const NoteOrderDate(Descending()),
   }) {
-    return repository.getNotes().map((result) {
+    return _repository.getNotes().map((result) {
       return result.map(
         successMapper: (notes) {
           switch (noteOrder.orderType) {

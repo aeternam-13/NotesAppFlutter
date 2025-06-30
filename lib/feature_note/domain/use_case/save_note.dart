@@ -3,10 +3,10 @@ import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
 
-class AddNote {
+class SaveNote {
   final NoteRepository _repository;
 
-  AddNote(this._repository);
+  SaveNote(this._repository);
 
   Future<Result<Unit, NoteException>> call(Note note) async {
     if (note.title.trim().isEmpty) {
@@ -15,6 +15,7 @@ class AddNote {
     if (note.content.trim().isEmpty) {
       return Error(InvalidNoteException('Content is empty'));
     }
-    return await _repository.insertNote(note);
+
+    return await _repository.saveNote(note);
   }
 }

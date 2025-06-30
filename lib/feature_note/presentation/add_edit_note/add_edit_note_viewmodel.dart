@@ -37,20 +37,24 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
       case SaveNoteIntent():
         int timestamp = _getTimestamp();
 
-        final trySaveNote = await _useCases.addNote(
-          Note(
-            title: _stateHolder.noteTitle.text,
-            content: _stateHolder.noteContent.text,
-            timestamp: timestamp,
-            color: _stateHolder.noteColor,
-            id: _stateHolder.currentNoteId,
-          ),
+        Note note = Note(
+          title: _stateHolder.noteTitle.text,
+          content: _stateHolder.noteContent.text,
+          timestamp: timestamp,
+          color: _stateHolder.noteColor,
+          id: _stateHolder.currentNoteId,
         );
+
+        final trySaveNote =
+            note.id == -1
+                ? await _useCases.saveNote(note)
+                : await _useCases.updateNote(note);
 
         trySaveNote.map(
           successMapper: (_) {
-            _uiEventController.add(SavedNote());
             _stateHolder = AddEditNoteStateHolder();
+            state = AddEditNoteLoadingState();
+            _uiEventController.add(SavedNote());
           },
           errorMapper:
               (error) =>
