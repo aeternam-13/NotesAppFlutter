@@ -18,7 +18,7 @@ class NoteDaoHive implements NoteDao {
 
   @override
   Stream<Result<List<Note>, NoteException>> getNotes() async* {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(milliseconds: 500));
     yield Success(_readAllNotes());
     yield* _box.watch().map((_) => Success(_readAllNotes()));
   }

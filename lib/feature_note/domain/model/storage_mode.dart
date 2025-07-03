@@ -1,0 +1,1 @@
+enum StorageMode { api, hive }

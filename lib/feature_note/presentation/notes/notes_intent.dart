@@ -1,4 +1,5 @@
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
+import 'package:notesappflutter/feature_note/domain/model/storage_mode.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dart';
 
 sealed class NotesIntent {}
@@ -25,4 +26,10 @@ class GoToAddEditNoteIntent extends NotesIntent {
   final int noteId;
 
   GoToAddEditNoteIntent({this.noteId = -1});
+}
+
+class SwitchStorageModeIntent extends NotesIntent {
+  final StorageMode storageMode;
+
+  SwitchStorageModeIntent(this.storageMode);
 }

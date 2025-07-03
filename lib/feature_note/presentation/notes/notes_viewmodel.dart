@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:notesappflutter/feature_note/domain/model/note.dart';
 import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
+import 'package:notesappflutter/feature_note/domain/model/storage_mode.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/use_cases.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/note_order.dart';
 import 'package:notesappflutter/feature_note/domain/use_case/util/order_type.dart';
@@ -24,6 +25,8 @@ class NoteViewModel extends StateNotifier<NotesState> {
   NoteViewModel(this._useCases) : super(NotesStateLoading()) {
     _getNotes(const NoteOrderDate(Descending()));
   }
+
+  StorageMode get storageMode => _useCases.getStorageMode();
 
   void onIntent(NotesIntent event) {
     switch (event) {
@@ -60,6 +63,10 @@ class NoteViewModel extends StateNotifier<NotesState> {
         _uiEventController.add(NavigateToAddEditNote(noteId: event.noteId));
 
       case GetNotesIntent():
+        _getNotes(_state.noteOrder);
+
+      case SwitchStorageModeIntent():
+        _useCases.switchStorageMode(event.storageMode);
         _getNotes(_state.noteOrder);
     }
   }

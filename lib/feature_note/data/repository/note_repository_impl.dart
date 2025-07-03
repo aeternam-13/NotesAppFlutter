@@ -5,7 +5,7 @@ import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:notesappflutter/feature_note/domain/repository/note_repository.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
-  final NoteDao _dao;
+  NoteDao _dao;
 
   NoteRepositoryImpl(this._dao);
 
@@ -25,4 +25,9 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Result<Unit, NoteException>> saveNote(Note note) =>
       _dao.saveNote(note);
+
+  @override
+  void setDao(NoteDao dao) {
+    _dao = dao;
+  }
 }
