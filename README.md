@@ -1,4 +1,4 @@
-# notesappflutter
+# NotesAppFlutter
 
 Notes application in with with Riverpod, Hive/API and MVI + Clean architecture.
 
