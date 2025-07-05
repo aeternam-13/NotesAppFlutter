@@ -1,9 +1,8 @@
 import 'dart:ui';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce/hive.dart';
-
 import 'package:notesappflutter/feature_note/presentation/notes/notes_screen/notes_screen.dart';
 import 'package:notesappflutter/hive/hive_registrar.g.dart';
 import 'package:notesappflutter/theme.dart';
@@ -11,10 +10,12 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final dir = await getApplicationDocumentsDirectory();
-  Hive.init(dir.path);
-  Hive.registerAdapters();
-  await Hive.openBox('notesBox');
+  if (!kIsWeb && !kIsWasm) {
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    Hive.registerAdapters();
+    await Hive.openBox('notesBox');
+  }
   runApp(ProviderScope(child: const NotesAppFlutter()));
 }
 

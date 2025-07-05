@@ -50,7 +50,14 @@ class NotesScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            NoteScreenHeader(),
+            NoteScreenHeader(
+              storageMode: viewmodel.storageMode,
+              changeStorageMode:
+                  (storageMode) =>
+                      viewmodel.onIntent(SwitchStorageModeIntent(storageMode)),
+              toggleOrderSection:
+                  () => viewmodel.onIntent(ToggleOrderSectionIntent()),
+            ),
             Expanded(
               child: switch (screenState) {
                 NotesStateSuccess() => NotesScreenSuccess(
@@ -64,7 +71,6 @@ class NotesScreen extends ConsumerWidget {
                         GoToAddEditNoteIntent(noteId: noteId),
                       ),
                 ),
-
                 NotesStateError() => NotesScreenError(
                   exception: screenState.exception,
                   retry: () => viewmodel.onIntent(GetNotesIntent()),

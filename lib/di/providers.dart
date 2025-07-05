@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesappflutter/feature_note/data/data_source/note_dao.dart';
 import 'package:notesappflutter/feature_note/data/data_source/note_dao_api.dart';
@@ -67,7 +68,9 @@ final noteRepProvider = Provider<NoteRepository>((ref) {
   return NoteRepositoryImpl(dao);
 });
 
-final noteDaoProvider = StateProvider<NoteDao>((ref) => NoteDaoHive());
+final noteDaoProvider = StateProvider<NoteDao>(
+  (ref) => kIsWeb || kIsWasm ? NoteDaoApi() : NoteDaoHive(),
+);
 
 void _switchStorageMode(Ref ref, NoteDao noteDao) {
   ref.read(noteDaoProvider.notifier).state = noteDao;
