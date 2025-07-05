@@ -1,6 +1,6 @@
 # NotesAppFlutter
 
-Notes application in with with Riverpod, Hive/API and MVI + Clean architecture.
+Notes application in Flutter with with Riverpod, Hive/API and MVI + Clean architecture.
 
 This app can work with local storage or connect to the API https://github.com/aeternam-13/NotesBackend
 
