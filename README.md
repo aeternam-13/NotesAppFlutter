@@ -16,13 +16,13 @@ Plattform support
 * Mac
 * Web
 
-<img width="1440" height="3120" alt="Image" src="https://github.com/user-attachments/assets/87959531-c9ad-4d06-b31d-0893016248a5" />
+<img width="300" height="3120" alt="Image" src="https://github.com/user-attachments/assets/87959531-c9ad-4d06-b31d-0893016248a5" />
 
-<img width="1440" height="3120" alt="Image" src="https://github.com/user-attachments/assets/346f4769-54f7-4a1c-bd1d-102787c4d0d0" />
+<img width="300" height="3120" alt="Image" src="https://github.com/user-attachments/assets/346f4769-54f7-4a1c-bd1d-102787c4d0d0" />
 
-<img width="1440" height="3120" alt="Image" src="https://github.com/user-attachments/assets/809a5649-c44b-4357-87db-42cf38f4dc52" />
+<img width="300" height="3120" alt="Image" src="https://github.com/user-attachments/assets/809a5649-c44b-4357-87db-42cf38f4dc52" />
 
-<img width="1440" height="3120" alt="Image" src="https://github.com/user-attachments/assets/367f35f8-e813-4bc4-a4e2-9154c8e16b3b" />
+<img width="300" height="3120" alt="Image" src="https://github.com/user-attachments/assets/367f35f8-e813-4bc4-a4e2-9154c8e16b3b" />
 
 All platforms except WEB support API + local, WEB only supports API
 
