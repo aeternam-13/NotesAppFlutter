@@ -10,7 +10,7 @@ import 'package:notesappflutter/feature_note/domain/model/note_exception.dart';
 import 'package:http/http.dart' as http;
 
 class NoteDaoApi extends NoteDao {
-  final String _baseUrl = "http://localhost:8080/notes";
+  final String _baseUrl = "http://127.0.0.1:8080/notes";
   final int _requestTimeout = 5;
   final _streamController =
       StreamController<Result<List<Note>, NoteException>>();

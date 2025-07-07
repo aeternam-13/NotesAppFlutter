@@ -17,19 +17,19 @@ class ColorSelector extends ConsumerWidget {
         child: Row(
           children: List.generate(Note.noteColors.length, (index) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
               child: InkWell(
                 customBorder: const CircleBorder(),
                 onTap: () => setColor(Note.noteColors[index].toARGB32()),
                 child: Container(
-                  width: 65,
-                  height: 65,
+                  width: 55,
+                  height: 55,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withAlpha(40),
+                        color: Colors.black.withAlpha(45),
                         spreadRadius: 1,
-                        blurRadius: 15,
+                        blurRadius: 10,
                         offset: Offset(0, 0), // vertical shadow
                       ),
                     ],
