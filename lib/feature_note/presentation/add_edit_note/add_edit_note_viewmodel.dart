@@ -64,6 +64,7 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
   }
 
   Future<void> loadNote(int noteId) async {
+    _stateHolder = AddEditNoteStateHolder();
     if (noteId != -1) {
       final note = await _useCases.getNote(noteId);
       if (note != null) {
@@ -74,8 +75,6 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
           currentNoteId: note.id,
         );
       }
-    } else {
-      _stateHolder = AddEditNoteStateHolder();
     }
 
     state = EditingNoteState(stateHolder: _stateHolder);
