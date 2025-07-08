@@ -74,6 +74,7 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
           currentNoteId: note.id,
         );
       }
+      return;
     }
 
     _stateHolder = AddEditNoteStateHolder();
