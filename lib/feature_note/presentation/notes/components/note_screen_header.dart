@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesappflutter/di/providers.dart';
 import 'package:notesappflutter/feature_note/domain/model/storage_mode.dart';
-import 'package:notesappflutter/feature_note/presentation/notes/notes_intent.dart';
 
 class NoteScreenHeader extends ConsumerWidget {
   const NoteScreenHeader({
