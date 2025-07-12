@@ -16,7 +16,7 @@ void main() async {
     Hive.registerAdapters();
     await Hive.openBox('notesBox');
   }
-  runApp(ProviderScope(child: const NotesAppFlutter()));
+  runApp(const ProviderScope(child: NotesAppFlutter()));
 }
 
 class NotesAppFlutter extends StatefulWidget {
@@ -27,7 +27,7 @@ class NotesAppFlutter extends StatefulWidget {
 }
 
 class _NotesAppFlutterState extends State<NotesAppFlutter> {
-  final _appTheme = MaterialTheme(ThemeData.light().textTheme);
+  final _appTheme = NotesAppTheme(ThemeData().textTheme);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

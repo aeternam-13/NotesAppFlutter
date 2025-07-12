@@ -10,7 +10,6 @@ class GoToAddEditNoteButton extends StatelessWidget {
     final theme = Theme.of(context);
     return FloatingActionButton(
       onPressed: callback,
-
       backgroundColor: theme.colorScheme.primary,
       child: Icon(Icons.add, color: Colors.white),
     );
