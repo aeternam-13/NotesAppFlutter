@@ -28,14 +28,14 @@ class NoteViewModel extends StateNotifier<NotesState> {
 
   StorageMode get storageMode => _useCases.getStorageMode();
 
-  void onIntent(NotesIntent event) {
-    switch (event) {
+  void onIntent(NotesIntent intent) {
+    switch (intent) {
       case OrderIntent():
-        if (_state.noteOrder.runtimeType == event.noteOrder.runtimeType &&
-            _state.noteOrder.orderType == event.noteOrder.orderType) {
+        if (_state.noteOrder.runtimeType == intent.noteOrder.runtimeType &&
+            _state.noteOrder.orderType == intent.noteOrder.orderType) {
           return;
         }
-        _getNotes(event.noteOrder);
+        _getNotes(intent.noteOrder);
 
       case DeleteNoteIntent(note: var note):
         _useCases.deleteNote(note.id);
@@ -60,13 +60,13 @@ class NoteViewModel extends StateNotifier<NotesState> {
         state = NotesStateSuccess(state: _state);
 
       case GoToAddEditNoteIntent():
-        _uiEventController.add(NavigateToAddEditNote(noteId: event.noteId));
+        _uiEventController.add(NavigateToAddEditNote(noteId: intent.noteId));
 
       case GetNotesIntent():
         _getNotes(_state.noteOrder);
 
       case SwitchStorageModeIntent():
-        _useCases.switchStorageMode(event.storageMode);
+        _useCases.switchStorageMode(intent.storageMode);
         _getNotes(_state.noteOrder);
     }
   }

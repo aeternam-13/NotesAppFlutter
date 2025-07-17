@@ -16,51 +16,59 @@ class AddEditNoteViewModel extends StateNotifier<AddEditNoteState> {
 
   Stream<AddEditNoteUiEvent> get uiEventStream => _uiEventController.stream;
 
-  void onIntent(AddEditNoteIntent event) async {
-    switch (event) {
+  void onIntent(AddEditNoteIntent intent) async {
+    switch (intent) {
       case EnteredTitleIntent():
         _stateHolder = _stateHolder.copyWith(
-          noteTitle: _stateHolder.noteTitle.copyWith(text: event.value),
+          noteTitle: _stateHolder.noteTitle.copyWith(text: intent.value),
         );
         state = EditingNoteState(stateHolder: _stateHolder);
 
       case EnteredContentIntent():
         _stateHolder = _stateHolder.copyWith(
-          noteContent: _stateHolder.noteContent.copyWith(text: event.value),
+          noteContent: _stateHolder.noteContent.copyWith(text: intent.value),
         );
         state = EditingNoteState(stateHolder: _stateHolder);
 
       case ChangeNoteColorIntent():
-        _stateHolder = _stateHolder.copyWith(noteColor: event.color);
+        _stateHolder = _stateHolder.copyWith(noteColor: intent.color);
         state = EditingNoteState(stateHolder: _stateHolder);
 
       case SaveNoteIntent():
-        int timestamp = _getTimestamp();
-
-        Note note = Note(
-          title: _stateHolder.noteTitle.text,
-          content: _stateHolder.noteContent.text,
-          timestamp: timestamp,
-          color: _stateHolder.noteColor,
-          id: _stateHolder.currentNoteId,
-        );
-
-        final trySaveNote =
-            note.id == -1
-                ? await _useCases.saveNote(note)
-                : await _useCases.updateNote(note);
-
-        trySaveNote.map(
-          successMapper: (_) {
-            _stateHolder = AddEditNoteStateHolder();
-            state = AddEditNoteLoadingState();
-            _uiEventController.add(SavedNote());
-          },
-          errorMapper:
-              (error) =>
-                  _uiEventController.add(ShowSnackBar(message: error.message)),
-        );
+        _saveNote();
     }
+  }
+
+  Future<void> _saveNote() async {
+    _uiEventController.add(ShowLoadingDialog(message: "Saving note..."));
+    await Future.delayed(Duration(seconds: 1));
+    int timestamp = _getTimestamp();
+
+    Note note = Note(
+      title: _stateHolder.noteTitle.text,
+      content: _stateHolder.noteContent.text,
+      timestamp: timestamp,
+      color: _stateHolder.noteColor,
+      id: _stateHolder.currentNoteId,
+    );
+
+    final trySaveNote =
+        note.id == -1
+            ? await _useCases.saveNote(note)
+            : await _useCases.updateNote(note);
+
+    _uiEventController.add(CloseDialog());
+
+    trySaveNote.map(
+      successMapper: (_) {
+        _stateHolder = AddEditNoteStateHolder();
+        state = AddEditNoteLoadingState();
+        _uiEventController.add(NavigateBack());
+      },
+      errorMapper:
+          (error) =>
+              _uiEventController.add(ShowSnackBar(message: error.message)),
+    );
   }
 
   Future<void> loadNote(int noteId) async {
@@ -96,10 +104,18 @@ int _getTimestamp() {
 
 sealed class AddEditNoteUiEvent {}
 
-class SavedNote extends AddEditNoteUiEvent {}
+class NavigateBack extends AddEditNoteUiEvent {}
 
 class ShowSnackBar extends AddEditNoteUiEvent {
   final String message;
 
   ShowSnackBar({required this.message});
 }
+
+class ShowLoadingDialog extends AddEditNoteUiEvent {
+  final String message;
+
+  ShowLoadingDialog({required this.message});
+}
+
+class CloseDialog extends AddEditNoteUiEvent {}

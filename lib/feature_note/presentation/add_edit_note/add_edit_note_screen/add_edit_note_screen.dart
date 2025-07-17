@@ -7,6 +7,7 @@ import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_state.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/add_edit_note_viewmodel.dart';
 import 'package:notesappflutter/feature_note/presentation/add_edit_note/components/add_edit_note_action.dart';
+import 'package:notesappflutter/feature_note/presentation/common_components/loading_dialog.dart';
 import 'package:notesappflutter/feature_note/presentation/common_components/snackbar_error.dart';
 
 class AddEditNoteScreen extends ConsumerStatefulWidget {
@@ -29,13 +30,17 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
     });
   }
 
-  void _onUiEvent(AddEditNoteUiEvent event) {
+  void _onUiEvent(AddEditNoteUiEvent intent) {
     if (!mounted) return;
-    switch (event) {
-      case SavedNote():
+    switch (intent) {
+      case NavigateBack():
         Navigator.of(context).pop();
       case ShowSnackBar():
-        showSnackBarError(context, event.message);
+        showSnackBarError(context, intent.message);
+      case ShowLoadingDialog():
+        loadingDIalog(context, intent.message);
+      case CloseDialog():
+        Navigator.of(context).pop();
     }
   }
 
